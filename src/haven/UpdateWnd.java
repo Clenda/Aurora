@@ -5,12 +5,12 @@ import java.awt.event.KeyEvent;
 import java.net.URI;
 
 public class UpdateWnd extends Window {
-    private static final String dwnurl = "https://github.com/romovs/amber/releases/download/";
+    private static final String dwnurl = "https://github.com/Clenda/amber/releases/download/";
 
     public UpdateWnd(final String version) {
         super(Coord.z, "Update");
 
-        Label lbl = new Label(Resource.getLocString(Resource.BUNDLE_LABEL, "New client version available") + " - v" + version + "    ");
+        Label lbl = new Label(Resource.getLocString(Resource.BUNDLE_LABEL, "New client version available") + " " + version + "    ");
         add(lbl, new Coord(20, 40));
 
         Button btn = new Button(200, "Download Update") {
