@@ -1307,28 +1307,31 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                 Coord c = beltc(i);
                 g.image(invsq, beltc(i));
                 try {
-                    if (belt[slot] != null)
-                        g.image(belt[slot].get().layer(Resource.imgc).tex(), c.add(1, 1));
-                } catch (Loading e) {
-                }
-                g.chcolor(FBelt.keysClr);
-                FastText.aprint(g, new Coord(c.x + invsq.sz().x - 2, c.y + invsq.sz().y), 1, 1, "" + (i + 1));
-                g.chcolor();
-            }
-            super.draw(g);
-        }
-
-        public boolean mousedown(Coord c, int button) {
-            int slot = beltslot(c);
-            if (slot != -1) {
-                if (button == 1)
-                    GameUI.this.wdgmsg("belt", slot, 1, ui.modflags());
-                if (button == 3)
-                    GameUI.this.wdgmsg("setbelt", slot, 1);
-                return (true);
-            }
-            return (super.mousedown(c, button));
-        }
+		    if(belt[slot] != null) {
+			Resource.Image img = belt[slot].get().layer(Resource.imgc);
+			if(img == null)
+			    throw(new NullPointerException("No image in " + belt[slot].get().name));
+			g.image(img.tex(), c.add(1, 1));
+		    }
+		} catch(Loading e) {}
+		g.chcolor(156, 180, 158, 255);
+		FastText.aprintf(g, c.add(invsq.sz().sub(2, 0)), 1, 1, "%d", (i + 1) % 10);
+		g.chcolor();
+	    }
+	    super.draw(g);
+	}
+	
+	public boolean mousedown(Coord c, int button) {
+	    int slot = beltslot(c);
+	    if(slot != -1) {
+		if(button == 1)
+		    GameUI.this.wdgmsg("belt", slot, 1, ui.modflags());
+		if(button == 3)
+		    GameUI.this.wdgmsg("setbelt", slot, 1);
+		return(true);
+	    }
+	    return(super.mousedown(c, button));
+	}
 
         public boolean globtype(char key, KeyEvent ev) {
             if(key != 0)
