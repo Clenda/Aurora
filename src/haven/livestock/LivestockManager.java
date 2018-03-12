@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class LivestockManager extends Window {
-    private final Panel cattle, horses, sheep, pigs;
+    private final Panel cattle, horses, sheep, pigs, goat;
     private Panel current;
     public static final int COLUMN_TITLE_X = 60;
     public static final int ENTRY_X = 20;
@@ -22,16 +22,19 @@ public class LivestockManager extends Window {
         horses = add(new Panel(), pc);
         sheep = add(new Panel(), pc);
         pigs = add(new Panel(), pc);
+        goat = add(new Panel(), pc);
 
         add(new PButton(80, "Cattle", cattle), new Coord(20, 10));
         add(new PButton(80, "Horses", horses), new Coord(110, 10));
         add(new PButton(80, "Sheep", sheep), new Coord(200, 10));
         add(new PButton(80, "Pigs", pigs), new Coord(290, 10));
+        add(new PButton(80, "Goat", goat), new Coord(290, 10));
 
         createHeader(horses, Horses.columns);
         createHeader(cattle, Cattle.columns);
         createHeader(sheep, Sheep.columns);
         createHeader(pigs, Pigs.columns);
+        createHeader(goat, Goat.columns);
 
         chpanel(cattle);
     }
@@ -138,6 +141,10 @@ public class LivestockManager extends Window {
             case "Sow":
                 pendingAnimal = new Pigs(wdgid, type);
                 break;
+            case "Billy":
+            case "Nanny":
+                pendingAnimal = new Goat(wdgid, type);
+                break;
         }
     }
 
@@ -152,6 +159,9 @@ public class LivestockManager extends Window {
             case "Ram":
             case "Ewe":
                 return sheep;
+            case "Billy":
+            case "Nanny":
+                return goat;
             case "Hog":
             case "Sow":
                 return pigs;
