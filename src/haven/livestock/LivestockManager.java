@@ -28,7 +28,7 @@ public class LivestockManager extends Window {
         add(new PButton(80, "Horses", horses), new Coord(110, 10));
         add(new PButton(80, "Sheep", sheep), new Coord(200, 10));
         add(new PButton(80, "Pigs", pigs), new Coord(290, 10));
-        add(new PButton(80, "Goat", goat), new Coord(290, 10));
+        add(new PButton(80, "Goat", goat), new Coord(380, 10));
 
         createHeader(horses, Horses.columns);
         createHeader(cattle, Cattle.columns);
