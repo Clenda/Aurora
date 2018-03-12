@@ -38,7 +38,7 @@ public class FeedClover implements Runnable {
         }
 
         if (animal == null) {
-            gui.error("No horse/auroch/mouflon found");
+            gui.error("No horse/auroch/mouflon/goat found");
             return;
         }
 
