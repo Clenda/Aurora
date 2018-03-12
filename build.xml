@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 
 <project name="hafen" default="deftgt">
-  <property name="name" value="amber"/>
+  <property name="name" value="Aurora"/>
   <property name="version" value=""/>
 
   <target name="build-env">
