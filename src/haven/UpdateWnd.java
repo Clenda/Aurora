@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 import java.net.URI;
 
 public class UpdateWnd extends Window {
-    private static final String dwnurl = "https://github.com/Clenda/amber/releases/download/";
+    private static final String dwnurl = "https://github.com/Clenda/Aurora/releases/download/";
 
     public UpdateWnd(final String version) {
         super(Coord.z, "Update");
