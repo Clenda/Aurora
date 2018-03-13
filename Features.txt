@@ -10,4 +10,3 @@ Features :
 - go fast on/off Coracle
 - AutoDrink when crafting
 - Quality node on maps
-- Missing hitbox (Goats, pigs)
