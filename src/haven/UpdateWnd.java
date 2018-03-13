@@ -18,7 +18,7 @@ public class UpdateWnd extends Window {
                 Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
                 if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
                     try {
-                        desktop.browse(new URI(dwnurl + version + "/amber-" + version + "-upd.zip"));
+                        desktop.browse(new URI(dwnurl + version + "/Aurora-" + version + "-upd.zip"));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
