@@ -1,8 +1,12 @@
-Version 1.0
+Version 1.1.0
+	Misc:
+		* Added hitbox for pigs and goat
+
+Version 1.0.0
 	Fixed:
 		* Autopatcher
 
-Version 0.9
+Version 0.9.0
 	Misc:
 		* Added goats to the livestock manager.
 		* Added goats to the Use rope on nearest animal.
