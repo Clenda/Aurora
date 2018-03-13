@@ -1,0 +1,13 @@
+Features : 
+- chaining light object
+- light with lantern
+- Switch from 3 and 4 speed with a key (by foots and horse)
+- More than 3 light (graphical update)
+- hotkey the drinks from belt
+- drinks from any container in inventory
+- shows maneuver openings and ip on every person
+- horse with 3rd speed start
+- go fast on/off Coracle
+- AutoDrink when crafting
+- Quality node on maps
+- Missing hitbox (Goats, pigs)
