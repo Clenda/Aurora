@@ -697,10 +697,11 @@ public class FightWnd extends Widget {
                 if(s < 0)
                     return(false);
                 if(order[s] != act) {
-                    if(order[s] != null) {
-                        int cp = findorder(act);
-                        if(cp >= 0) {
-                            order[cp] = order[s];
+				    int cp = findorder(act);
+				    if(cp >= 0)
+				    	order[cp] = order[s];
+				    if(order[s] != null) {
+				    	if(cp >= 0) {
                             animate(cp, itemc(s).sub(itemc(cp)));
                         } else {
                             order[s].u(0);
