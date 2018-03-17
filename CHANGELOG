@@ -1,3 +1,7 @@
+Version 1.2.0
+	New:
+		* Add option to use space key for switching speed between running and sprinting
+		
 Version 1.1.1
 	Fixe:
 		* Autopatcher
