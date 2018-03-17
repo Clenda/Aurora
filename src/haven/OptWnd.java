@@ -1020,7 +1020,7 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Use space key for switch between running and sprinting") {
+        appender.add(new CheckBox("Use space key for switch speed between running and sprinting") {
             {
                 a = Config.switchspeed;
             }
