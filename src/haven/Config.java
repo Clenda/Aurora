@@ -106,6 +106,7 @@ public class Config {
     public static boolean showwearbars = Utils.getprefb("showwearbars", true);
     public static boolean tilecenter = Utils.getprefb("tilecenter", false);
     public static boolean userazerty = Utils.getprefb("userazerty", false);
+    public static boolean switchspeed = Utils.getprefb("switchspeed", false);
     public static boolean hlightcuropp = Utils.getprefb("hlightcuropp", false);
     public static boolean reversebadcamx = Utils.getprefb("reversebadcamx", false);
     public static boolean reversebadcamy = Utils.getprefb("reversebadcamy", false);

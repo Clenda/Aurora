@@ -1020,6 +1020,17 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Use space key for switch between running and sprinting") {
+            {
+                a = Config.switchspeed;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("switchspeed", val);
+                Config.switchspeed = val;
+                a = val;
+            }
+        });
         appender.add(new CheckBox("Reverse bad camera MMB x-axis") {
             {
                 a = Config.reversebadcamx;
