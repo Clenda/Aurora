@@ -1,7 +1,6 @@
 Features : 
 - chaining light object
 - light with lantern
-- Switch from 3 and 4 speed with a key (by foots and horse)
 - More than 3 light (graphical update)
 - hotkey the drinks from belt
 - drinks from any container in inventory
