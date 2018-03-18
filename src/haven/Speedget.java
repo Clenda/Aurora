@@ -123,15 +123,12 @@ public class Speedget extends Widget {
     }
 
     public boolean globtype(char key, KeyEvent ev) {
-        if (Config.switchspeed)
+        if (Config.switchspeed && key == KeyEvent.VK_SPACE)
         {
-        	if(key == KeyEvent.VK_SPACE)
-        	{
-	        	if(cur == 2)
-	        		set(3);
-	        	else
-	        		set(2);
-        	}
+        	if(cur == 2)
+        		set(3);
+        	else
+        		set(2);
         } else if (key == 18) {
             if (max >= 0) {
                 int n;
