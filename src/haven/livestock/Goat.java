@@ -1,7 +1,8 @@
 package haven.livestock;
 
 
-import haven.*;
+import haven.Resource;
+import haven.Tex;
 
 import java.util.HashMap;
 import java.util.Map;

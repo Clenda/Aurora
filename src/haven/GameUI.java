@@ -995,6 +995,9 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         if (key == ':') {
             entercmd();
             return (true);
+        } else if((Config.screenurl != null) && (Character.toUpperCase(key) == 'S') && ((ev.getModifiersEx() & (KeyEvent.META_DOWN_MASK | KeyEvent.ALT_DOWN_MASK)) != 0)) {
+            Screenshooter.take(this, Config.screenurl);
+            return(true);
         } else if (key == 3) {
             if (chat.visible && !chat.hasfocus) {
                 setfocus(chat);
@@ -1035,7 +1038,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             quickslots.drop(QuickSlotsWdg.rc, Coord.z);
             quickslots.simulateclick(QuickSlotsWdg.rc);
             return true;
-        } else if (ev.isAltDown() && ev.getKeyCode() == KeyEvent.VK_S) {
+        } else if (ev.isControlDown() && ev.getKeyCode() == KeyEvent.VK_S) {
             HavenPanel.needtotakescreenshot = true;
             return true;
         } else if (ev.isControlDown() && ev.getKeyCode() == KeyEvent.VK_H) {
