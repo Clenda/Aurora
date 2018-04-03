@@ -123,7 +123,7 @@ public class Speedget extends Widget {
     }
 
     public boolean globtype(char key, KeyEvent ev) {
-        if (Config.switchspeed && ev.isShiftDown() && key == KeyEvent.VK_SPACE)
+        if (Config.switchspeed && ev.isControlDown() && key == KeyEvent.VK_SPACE)
         {
         	if(cur == 2)
         		set(3);
