@@ -1,5 +1,21 @@
+Version 1.3.0
+	Misc:
+		* Changing control for speed switching from space to ctrl + space
+	
+	Merge from Amber:
+		* Fixed : (hopefully) issues with ore dropping.
+		* Misc : JVM argument for specifying whether to dump l10n strings.
+        * Misc : Better handling of bounding boxes for rlink-ed resources.
+        * Misc : Remove hide quests panel option
+        * Misc : Remove simple foragables option
+        * Misc : Remove show wear bars option and just always show the bars
+        * New : Add treatments for coaler's cough
+        * New : Add seashell to alarms list
+        * New : Add mole to icons list
+        * New : Add aggro radius to wild goats
+
 Version 1.2.1
-	fixed:
+	Fixed:
 		* Add option to use space key for switching speed between running and sprinting
 
 Version 1.2.0
@@ -7,7 +23,7 @@ Version 1.2.0
 		* Add option to use space key for switching speed between running and sprinting
 		
 Version 1.1.1
-	Fixe:
+	Fixed:
 		* Autopatcher
 		
 Version 1.1.0
