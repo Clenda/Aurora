@@ -264,17 +264,6 @@ public class OptWnd extends Window {
                         a = val;
                     }
                 });
-                appender.add(new CheckBox("Simple foragables (req. logout)") {
-                    {
-                        a = Config.simpleforage;
-                    }
-
-                    public void set(boolean val) {
-                        Utils.setprefb("simpleforage", val);
-                        Config.simpleforage = val;
-                        a = val;
-                    }
-                });
                 appender.add(new CheckBox("Hide crops") {
                     {
                         a = Config.hidecrops;
@@ -597,17 +586,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Show wear bars") {
-            {
-                a = Config.showwearbars;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("showwearbars", val);
-                Config.showwearbars = val;
-                a = val;
-            }
-        });
         appender.add(new CheckBox("Show animal radius") {
             {
                 a = Config.showanimalrad;
@@ -919,17 +897,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        /*appender.add(new CheckBox("Show attack cooldown delta") {
-            {
-                a = Config.showcddelta;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("showcddelta", val);
-                Config.showcddelta = val;
-                a = val;
-            }
-        });*/
         appender.add(new CheckBox("Log combat actions to system log") {
             {
                 a = Config.logcombatactions;
@@ -1182,24 +1149,6 @@ public class OptWnd extends Window {
             public void set(boolean val) {
                 Utils.setprefb("showinvonlogin", val);
                 Config.showinvonlogin = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Hide quests panel") {
-            {
-                a = Config.noquests;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("noquests", val);
-                Config.noquests = val;
-                try {
-                    if (val)
-                        gameui().questpanel.hide();
-                    else
-                        gameui().questpanel.show();
-                } catch (NullPointerException npe) { // ignored
-                }
                 a = val;
             }
         });
