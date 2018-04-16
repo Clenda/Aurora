@@ -77,6 +77,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     public MinimapWnd minimapWnd;
     public LocalMiniMap mmap;
     public haven.timers.TimersWnd timerswnd;
+    public haven.townspeaker.TownSpeakerWnd townspeakerwnd;
     public QuickSlotsWdg quickslots;
     public StatusWdg statuswindow;
     public AlignPanel questpanel;
@@ -193,9 +194,13 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         timerswnd.hide();
         add(timerswnd, new Coord(HavenPanel.w / 2 - timerswnd.sz.x / 2, 100));
 
+        townspeakerwnd = new haven.townspeaker.TownSpeakerWnd(this);
+        townspeakerwnd.hide();
+        add(townspeakerwnd, new Coord(HavenPanel.w / 2 - townspeakerwnd.sz.x / 2, 100));
+        
         livestockwnd = new LivestockManager();
         livestockwnd.hide();
-        add(livestockwnd, new Coord(HavenPanel.w / 2 - timerswnd.sz.x / 2, 100));
+        add(livestockwnd, new Coord(HavenPanel.w / 2 - livestockwnd.sz.x / 2, 100));
 
         quickslots = new QuickSlotsWdg();
         if (!Config.quickslots)

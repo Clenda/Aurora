@@ -51,12 +51,18 @@ public class Glob {
     public double skyblend = 0.0;
     private Map<Indir<Resource>, Object> wmap = new HashMap<Indir<Resource>, Object>();
     public static haven.timers.TimersThread timersThread;
+    public static haven.townspeaker.TownSpeakerThread townspeakerThread;
     public String servertime;
     public Tex servertimetex;
 
     static {
         timersThread = new haven.timers.TimersThread();
         timersThread.start();
+    }
+    
+    static {
+    	townspeakerThread = new haven.townspeaker.TownSpeakerThread();
+    	townspeakerThread.start();
     }
 
     public Glob(Session sess) {
