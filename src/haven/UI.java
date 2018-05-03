@@ -32,8 +32,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.InputEvent;
 
 public class UI {
-    public static int MOD_SHIFT = 1, MOD_CTRL = 2, MOD_META = 4, MOD_SUPER = 8;
     public RootWidget root;
+    public static int MOD_SHIFT = 1, MOD_CTRL = 2, MOD_META = 4, MOD_SUPER = 8;
     final private LinkedList<Grab> keygrab = new LinkedList<Grab>(), mousegrab = new LinkedList<Grab>();
     public Map<Integer, Widget> widgets = new TreeMap<Integer, Widget>();
     public Map<Widget, Integer> rwidgets = new HashMap<Widget, Integer>();
@@ -461,18 +461,18 @@ public class UI {
     }
 
     public static int modflags(InputEvent ev) {
-	int mod = ev.getModifiersEx();
-	return((((mod & InputEvent.SHIFT_DOWN_MASK) != 0) ? MOD_SHIFT : 0) |
-	       (((mod & InputEvent.CTRL_DOWN_MASK) != 0)  ? MOD_CTRL : 0) |
-	       (((mod & (InputEvent.META_DOWN_MASK | InputEvent.ALT_DOWN_MASK)) != 0) ? MOD_META : 0)
-	       /* (((mod & InputEvent.SUPER_DOWN_MASK) != 0) ? MOD_SUPER : 0) */);
+        int mod = ev.getModifiersEx();
+        return((((mod & InputEvent.SHIFT_DOWN_MASK) != 0) ? MOD_SHIFT : 0) |
+                (((mod & InputEvent.CTRL_DOWN_MASK) != 0)  ? MOD_CTRL : 0) |
+                (((mod & (InputEvent.META_DOWN_MASK | InputEvent.ALT_DOWN_MASK)) != 0) ? MOD_META : 0)
+                /* (((mod & InputEvent.SUPER_DOWN_MASK) != 0) ? MOD_SUPER : 0) */);
     }
 
     public int modflags() {
-	return((modshift ? MOD_SHIFT : 0) |
-	       (modctrl  ? MOD_CTRL  : 0) |
-	       (modmeta  ? MOD_META  : 0) |
-	       (modsuper ? MOD_SUPER : 0));
+        return((modshift ? MOD_SHIFT : 0) |
+                (modctrl  ? MOD_CTRL  : 0) |
+                (modmeta  ? MOD_META  : 0) |
+                (modsuper ? MOD_SUPER : 0));
     }
 
     public void destroy() {
