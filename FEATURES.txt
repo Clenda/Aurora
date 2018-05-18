@@ -1,4 +1,4 @@
-Features : 
+Features to implement : 
 - chaining light object
 - light with lantern
 - drinks from any container in inventory (hotkey the drinks from belt?)
@@ -9,3 +9,4 @@ Features :
 - Quality node on maps
 - AutoplayMusic from script / Load script from files
 - Flat Cupboard option
+- Auto harvrest trellis.
