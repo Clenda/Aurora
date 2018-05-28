@@ -31,17 +31,18 @@ import java.util.*;
 import haven.Audio.CS;
 
 public class AudioSprite {
-    public static Resource.Audio randoom(Resource res, String id) {
+    public static List<Resource.Audio> clips(Resource res, String id)
+    {
         List<Resource.Audio> cl = new ArrayList<Resource.Audio>();
         for (Resource.Audio clip : res.layers(Resource.audio)) {
             if (clip.id == id)
                 cl.add(clip);
         }
-        if (!cl.isEmpty()) {
-            int rnd = (int) (Math.random() * cl.size());
-            if (rnd == 1 && "sfx/items/pickaxe".equals(res.name) )
-                rnd = 0;
-            return cl.get(rnd);
+	return(cl);
+    }
+
+    public static Resource.Audio randoom(Resource res, String id) {
+	List<Resource.Audio> cl = clips(res, id);
         }
         return (null);
     }
@@ -54,9 +55,9 @@ public class AudioSprite {
                     return (new ClipSprite(owner, res, clip));
             }
             {
-                Resource.Audio clip = randoom(res, "rep");
-                if (clip != null)
-                    return (new RepeatSprite(owner, res, randoom(res, "beg"), clip, randoom(res, "end")));
+		    List<Resource.Audio> clips = clips(res, "rep");
+		    if(!clips.isEmpty())
+			return(new RepeatSprite(owner, res, randoom(res, "beg"), clips, randoom(res, "end")));
             }
             {
                 if ((res.layer(Resource.audio, "amb") != null) || (res.layer(ClipAmbiance.Desc.class) != null))
@@ -115,7 +116,7 @@ public class AudioSprite {
         private ActAudio.PosClip clip;
         private final Resource.Audio end;
 
-        public RepeatSprite(Owner owner, Resource res, final Resource.Audio beg, final Resource.Audio clip, Resource.Audio end) {
+	public RepeatSprite(Owner owner, Resource res, final Resource.Audio beg, final List<Resource.Audio> clips, Resource.Audio end) {
             super(owner, res);
             this.end = end;
             CS rep = new Audio.Repeater() {
@@ -126,7 +127,7 @@ public class AudioSprite {
                         f = false;
                         return (beg.stream());
                     }
-                    return (clip.stream());
+			return(clips.get((int)(Math.random() * clips.size())).stream());
                 }
             };
             this.clip = new ActAudio.PosClip(rep);
