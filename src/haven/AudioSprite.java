@@ -41,10 +41,12 @@ public class AudioSprite {
 	return(cl);
     }
 
-    public static Resource.Audio randoom(Resource res, String id) {
-	List<Resource.Audio> cl = clips(res, id);
-        }
-        return (null);
+    public static Resource.Audio randoom(Resource res, String id) 
+    {
+    	List<Resource.Audio> cl = clips(res, id);
+     	if(!cl.isEmpty())
+     	    return(cl.get((int)(Math.random() * cl.size())));
+     	return(null);
     }
 
     public static final Sprite.Factory fact = new Sprite.Factory() {
