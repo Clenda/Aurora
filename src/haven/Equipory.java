@@ -70,14 +70,14 @@ public class Equipory extends Widget implements DTarget {
             if (ec.y + invsq.sz().y > isz.y)
                 isz.y = ec.y + invsq.sz().y;
         }
-	for(int i = 0; i < ebgs.length; i++) {
-	    Resource bgres = Resource.local().loadwait("gfx/hud/equip/ep" + i);
-	    Resource.Image img = bgres.layer(Resource.imgc);
-	    if(img != null) {
-		ebgs[i] = bgres.layer(Resource.imgc).tex();
-		etts[i] = Text.render(bgres.layer(Resource.tooltip).t);
-	    }
-	}
+        for(int i = 0; i < ebgs.length; i++) {
+            Resource bgres = Resource.local().loadwait("gfx/hud/equip/ep" + i);
+            Resource.Image img = bgres.layer(Resource.imgc);
+            if(img != null) {
+                ebgs[i] = bgres.layer(Resource.imgc).tex();
+                etts[i] = Text.render(bgres.layer(Resource.tooltip).t);
+            }
+        }
     }
 
     Map<GItem, WItem[]> wmap = new HashMap<GItem, WItem[]>();
@@ -129,10 +129,6 @@ public class Equipory extends Widget implements DTarget {
         ava.color = null;
     }
 
-    public static interface SlotInfo {
-	public int slots();
-    }
-
     @Override
     public void tick(double dt) {
         if (Config.quickbelt && ui.beltWndId == -1 && ((Window) parent).origcap.equals("Equipment")) {
@@ -145,6 +141,10 @@ public class Equipory extends Widget implements DTarget {
             }
         }
         super.tick(dt);
+    }
+
+    public static interface SlotInfo {
+        public int slots();
     }
 
     public void addchild(Widget child, Object... args) {
@@ -209,36 +209,36 @@ public class Equipory extends Widget implements DTarget {
     }
 
     public void drawslots(GOut g) {
-	int slots = 0;
-	GameUI gui = getparent(GameUI.class);
-	if((gui != null) && (gui.vhand != null)) {
-	    try {
-		SlotInfo si = ItemInfo.find(SlotInfo.class, gui.vhand.item.info());
-		if(si != null)
-		    slots = si.slots();
-	    } catch(Loading l) {
-	    }
-	}
-	for(int i = 0; i < 16; i++) {
-	    if((slots & (1 << i)) != 0) {
-		g.chcolor(255, 255, 0, 64);
-		g.frect(ecoords[i].add(1, 1), invsq.sz().sub(2, 2));
-		g.chcolor();
-	    }
+        int slots = 0;
+        GameUI gui = getparent(GameUI.class);
+        if ((gui != null) && (gui.vhand != null)) {
+            try {
+                SlotInfo si = ItemInfo.find(SlotInfo.class, gui.vhand.item.info());
+                if (si != null)
+                    slots = si.slots();
+            } catch (Loading l) {
+            }
+        }
+        for (int i = 0; i < 16; i++) {
+            if ((slots & (1 << i)) != 0) {
+                g.chcolor(255, 255, 0, 64);
+                g.frect(ecoords[i].add(1, 1), invsq.sz().sub(2, 2));
+                g.chcolor();
+            }
             g.image(invsq, ecoords[i]);
-	    if(ebgs[i] != null)
-		g.image(ebgs[i], ecoords[i]);
-	}
+            if (ebgs[i] != null)
+                g.image(ebgs[i], ecoords[i]);
+        }
     }
 
     public Object tooltip(Coord c, Widget prev) {
-	Object tt = super.tooltip(c, prev);
-	if(tt != null)
-	    return(tt);
-	int sl = epat(c);
-	if(sl >= 0)
-	    return(etts[sl]);
-	return(null);
+        Object tt = super.tooltip(c, prev);
+        if (tt != null)
+            return (tt);
+        int sl = epat(c);
+        if (sl >= 0)
+            return (etts[sl]);
+        return (null);
     }
 
     public void draw(GOut g) {
