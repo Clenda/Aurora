@@ -424,7 +424,7 @@ public class Config {
         put("/idle", new CheckListboxItem("Idle animals"));
     }};
 
-    public final static HashMap<String, String[]> cures = new HashMap<String, String[]>(21) {{
+    public final static HashMap<String, String[]> cures = new HashMap<String, String[]>(22) {{
         put("paginae/wound/antburn", new String[]{
                 "gfx/invobjs/herbs/yarrow"
         });
@@ -483,7 +483,8 @@ public class Config {
         put("paginae/wound/unfaced", new String[]{
                 "gfx/invobjs/toadbutter",
                 "gfx/invobjs/leech",
-                "gfx/invobjs/mudointment"
+                "gfx/invobjs/mudointment",
+                "gfx/invobjs/kelpcream"
         });
         put("paginae/wound/wretchedgore", new String[]{
                 "gfx/invobjs/stitchpatch"
@@ -510,10 +511,14 @@ public class Config {
                 "gfx/invobjs/toadbutter"
         });
         put("paginae/wound/sealfinger", new String[]{
-                "gfx/invobjs/hartshornsalve"
+                "gfx/invobjs/hartshornsalve",
+                "gfx/invobjs/kelpcream"
         });
         put("paginae/wound/coalcough", new String[]{
                 "gfx/invobjs/opium"
+        });
+        put("paginae/wound/beesting", new String[]{
+                "gfx/invobjs/kelpcream"
         });
     }};
 
