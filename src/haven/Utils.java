@@ -1564,18 +1564,48 @@ public class Utils {
         return (new MapBuilder<K, V>(new HashMap<K, V>()));
     }
 
-    public static <T, F> Iterator<T> filter(Iterator<F> from, Class<T> filter) {
+    public static <F, T> Iterator<T> map(Iterator<F> from, Function<F, T> fn) {
         return(new Iterator<T>() {
             boolean h = false;
             T n;
 
             public boolean hasNext() {
+		    if(h)
+			return(true);
+		    if(!from.hasNext())
+			return(false);
+		    n = fn.apply(from.next());
+		    h = true;
+		    return(true);
+		}
+
+		public T next() {
+		    if(!hasNext())
+			throw(new NoSuchElementException());
+		    T ret = n;
+		    h = false;
+		    n = null;
+		    return(ret);
+		}
+
+		public void remove() {
+		    from.remove();
+		}
+	    });
+    }
+
+    public static <E> Iterator<E> filter(Iterator<E> from, Predicate<E> filter) {
+	return(new Iterator<E>() {
+		boolean h = false;
+		E n;
+
+		public boolean hasNext() {
                 while(!h) {
                     if(!from.hasNext())
                         return(false);
-                    F g = from.next();
-                    if(filter.isInstance(g)) {
-                        n = filter.cast(g);
+			E g = from.next();
+			if(filter.test(g)) {
+			    n = g;
                         h = true;
                         break;
                     }
@@ -1583,10 +1613,10 @@ public class Utils {
                 return(true);
             }
 
-            public T next() {
+		public E next() {
                 if(!hasNext())
                     throw(new NoSuchElementException());
-                T ret = n;
+		    E ret = n;
                 h = false;
                 n = null;
                 return(ret);
@@ -1596,6 +1626,10 @@ public class Utils {
                 from.remove();
             }
         });
+    }
+
+    public static <T, F> Iterator<T> filter(Iterator<F> from, Class<T> filter) {
+	return(map(filter(from, filter::isInstance), filter::cast));
     }
 
     public static final Comparator<Object> idcmd = new Comparator<Object>() {
