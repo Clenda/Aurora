@@ -38,9 +38,11 @@ public abstract class Animal extends HashMap<String, Integer> {
         put(Resource.getLocString(Resource.BUNDLE_LABEL, "Endurance:"), null);
         put(Resource.getLocString(Resource.BUNDLE_LABEL, "Stamina:"), null);
         put(Resource.getLocString(Resource.BUNDLE_LABEL, "Metabolism:"), null);
-        // sheep
+        // sheep & Goat
         put(Resource.getLocString(Resource.BUNDLE_LABEL, "Wool quantity:"), null);
         put(Resource.getLocString(Resource.BUNDLE_LABEL, "Wool quality:"), null);
+        // Pig
+        put(Resource.getLocString(Resource.BUNDLE_LABEL, "Truffle snout:"), null);
     }
 
     public static int addColumn(Map<String, Column> columns, String name, String displayName, int index, int x) {

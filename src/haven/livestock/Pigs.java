@@ -20,9 +20,10 @@ public class Pigs extends Animal {
         x = addColumn(columns, "Breeding quality:", "Breeding", 1, x);
         x = addColumn(columns, "Meat quality:", "Meat", 2, x);
         x = addColumn(columns, "Milk quality:", "Milk", 3, x);
-        x = addColumn(columns, "Hide quality:", "Hide", 4, x);
-        x = addColumn(columns, "Meat quantity:", "Meat #", 5, x);
-        x = addColumn(columns, "Milk quantity:", "Milk #", 6, x);
+        x = addColumn(columns, "Truffle snout:", "Truffle", 4, x);
+        x = addColumn(columns, "Hide quality:", "Hide", 5, x);
+        x = addColumn(columns, "Meat quantity:", "Meat #", 6, x);
+        x = addColumn(columns, "Milk quantity:", "Milk #", 7, x);
             addColumn(columns, "X", "", 7, x);
     }
 
