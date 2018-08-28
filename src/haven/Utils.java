@@ -31,9 +31,7 @@ import org.json.JSONObject;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
+import java.awt.image.*;
 import java.io.*;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -45,10 +43,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.*;
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.IntPredicate;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 import java.util.prefs.Preferences;
 
 public class Utils {
