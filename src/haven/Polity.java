@@ -28,7 +28,10 @@ package haven;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.*;
+
 import static haven.BuddyWnd.width;
 
 public class Polity extends Widget {
@@ -38,6 +41,7 @@ public class Polity extends Widget {
     public final List<Member> memb = new ArrayList<Member>();
     public final Map<Integer, Member> idmap = new HashMap<Integer, Member>();
     protected Widget mw;
+    PrintWriter writer;
 
     public class Member {
         public final Integer id;
@@ -129,9 +133,22 @@ public class Polity extends Widget {
 
         private int aseq = -1;
         private Tex rauth = null;
+        private int authChange = -1;
 
         public void draw(GOut g) {
             synchronized (Polity.this) {
+            	
+            	if (authChange == -1)
+        		{
+            		authChange = auth;
+        		}
+            	if(authChange != auth)
+            	{	     		
+            		gameui().error(String.format("Authority Change : %d", auth - authChange));
+            		authChange = auth;
+            		//saveChangeAuth(authChange - auth);
+            	}
+
                 g.chcolor(0, 0, 0, 255);
                 g.frect(new Coord(0, 0), new Coord(sz.x, sz.y));
                 g.chcolor(128, 0, 0, 255);
@@ -149,6 +166,19 @@ public class Polity extends Widget {
                 g.aimage(rauth, sz.div(2), 0.5, 0.5);
             }
         }
+
+		private void saveChangeAuth(int NewAuth) {
+            try {
+                File outputfile = new File("Audit/Auth.txt");
+                outputfile.getParentFile().mkdirs();
+                writer = new PrintWriter(outputfile);
+                writer.append(String.format("%d", NewAuth));
+            } catch (Exception ex) {
+                System.out.println("Unable to save file: " + ex.getMessage());
+            } finally {
+            	writer.close();
+			}
+		}
     }
 
     public void uimsg(String msg, Object... args) {
