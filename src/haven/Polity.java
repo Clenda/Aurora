@@ -29,7 +29,10 @@ package haven;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static haven.BuddyWnd.width;
@@ -144,9 +147,9 @@ public class Polity extends Widget {
         		}
             	if(authChange != auth)
             	{	     		
-            		gameui().error(String.format("Authority Change : %d", auth - authChange));
+            		gameui().error(String.format("Authority Change : %d, New Value: %d", auth - authChange, auth));
             		authChange = auth;
-            		//saveChangeAuth(authChange - auth);
+            		saveChangeAuth(auth);
             	}
 
                 g.chcolor(0, 0, 0, 255);
@@ -169,10 +172,14 @@ public class Polity extends Widget {
 
 		private void saveChangeAuth(int NewAuth) {
             try {
+            	DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            	Date today = Calendar.getInstance().getTime();        
+            	String reportDate = df.format(today);
+            	
                 File outputfile = new File("Audit/Auth.txt");
                 outputfile.getParentFile().mkdirs();
-                writer = new PrintWriter(outputfile);
-                writer.append(String.format("%d", NewAuth));
+                writer = new PrintWriter(new FileOutputStream(outputfile,true));
+                writer.append(String.format("%s	%d%n", reportDate, NewAuth));
             } catch (Exception ex) {
                 System.out.println("Unable to save file: " + ex.getMessage());
             } finally {
