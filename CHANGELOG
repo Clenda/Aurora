@@ -1,3 +1,7 @@
+Version 2.2.7
+	Misc:
+		*Add max authority to the file
+
 Version 2.2.6
 	New:
 		*Write Authority to the disk when it change
