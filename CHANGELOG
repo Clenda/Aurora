@@ -1,3 +1,7 @@
+Version 2.2.6
+	New:
+		*Write Authority to the disk when it change
+		
 Version 2.2.5
 	New:
 		*Add Authority Change for realm or village (the tab need to be open)
