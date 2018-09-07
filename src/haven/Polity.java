@@ -139,16 +139,24 @@ public class Polity extends Widget {
 
         public void draw(GOut g) {
             synchronized (Polity.this) {
-            	
-            	if (authChange == -1)
-        		{
-            		authChange = auth;
-        		}
-            	if(authChange != auth)
-            	{	     		
-            		gameui().error(String.format("Authority Change : %d, New Value: %d", auth - authChange, auth));
-            		authChange = auth;
-            		saveChangeAuth(auth, acap);
+            	if((Config.showauthoritychange || Config.saveauthoritychange))
+            	{
+	            	if (authChange == -1)
+	        		{
+	            		authChange = auth;
+	        		}
+	            	if(authChange != auth)
+	            	{	
+	            		if(Config.showauthoritychange)
+	            		{
+	            			gameui().error(String.format("Authority Change : %d, New Value: %d", auth - authChange, auth));
+	            		}    		
+	            		if(Config.saveauthoritychange)
+	            		{
+	            			saveChangeAuth(auth, acap);
+	            		}	
+	            		authChange = auth;
+	            	}
             	}
                 g.chcolor(0, 0, 0, 255);
                 g.frect(new Coord(0, 0), new Coord(sz.x, sz.y));

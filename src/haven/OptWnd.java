@@ -710,6 +710,30 @@ public class OptWnd extends Window {
                 MapGridSave.mgs = null;
                 a = val;
             }
+        });  
+        appender.add(new CheckBox("Show Authority change in System chat") {
+            {
+                a = Config.showauthoritychange;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("showauthoritychange", val);
+                Config.showauthoritychange = val;
+                MapGridSave.mgs = null;
+                a = val;
+            }
+        });
+        appender.add(new CheckBox("Save Authority change to disk") {
+            {
+                a = Config.saveauthoritychange;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("saveauthoritychange", val);
+                Config.saveauthoritychange = val;
+                MapGridSave.mgs = null;
+                a = val;
+            }
         });
         appender.add(new CheckBox("Show timestamps in chats") {
             {
