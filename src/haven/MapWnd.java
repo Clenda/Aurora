@@ -292,18 +292,17 @@ public class MapWnd extends Window {
         return modes;
     }
 
-   public class MarkerList extends Searchbox<Marker> {
+    public class MarkerList extends Searchbox<Marker> {
         private final Text.Foundry fnd = CharWnd.attrf;
 
         public Marker listitem(int idx) {
             return (markers.get(idx));
         }
-        
-	public boolean searchmatch(int idx, String txt) {return(markers.get(idx).nm.toLowerCase().indexOf(txt.toLowerCase()) >= 0);}
 
         public int listitems() {
             return (markers.size());
         }
+        public boolean searchmatch(int idx, String txt) {return(markers.get(idx).nm.toLowerCase().indexOf(txt.toLowerCase()) >= 0);}
 
         public MarkerList(int w, int n) {
             super(w, n, 20);
@@ -315,10 +314,10 @@ public class MapWnd extends Window {
         }
 
         public void drawitem(GOut g, Marker mark, int idx) {
-	    if(soughtitem(idx)) {
-		g.chcolor(found);
-		g.frect(Coord.z, g.sz);
-	    }
+            if(soughtitem(idx)) {
+                g.chcolor(found);
+                g.frect(Coord.z, g.sz);
+            }
             g.chcolor(((idx % 2) == 0) ? every : other);
             g.frect(Coord.z, g.sz);
             if (mark instanceof PMarker)

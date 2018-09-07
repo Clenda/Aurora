@@ -69,15 +69,14 @@ public class Polity extends Widget {
         public int listitems() {
             return (memb.size());
         }
-        
-	public String itemname(int idx) {
-	    Member m = memb.get(idx);
-	    if(m.id == null)
-		return("You");
-	    BuddyWnd.Buddy b = getparent(GameUI.class).buddies.find(m.id);
-	    return((b == null) ? "???" : b.name);
-	}
-	public boolean searchmatch(int idx, String txt) {return(itemname(idx).toLowerCase().indexOf(txt.toLowerCase()) >= 0);}
+        public String itemname(int idx) {
+            Member m = memb.get(idx);
+            if(m.id == null)
+                return("You");
+            BuddyWnd.Buddy b = getparent(GameUI.class).buddies.find(m.id);
+            return((b == null) ? "???" : b.name);
+        }
+        public boolean searchmatch(int idx, String txt) {return(itemname(idx).toLowerCase().indexOf(txt.toLowerCase()) >= 0);}
 
         protected void drawbg(GOut g) {
             g.chcolor(0, 0, 0, 128);
@@ -86,11 +85,11 @@ public class Polity extends Widget {
         }
 
         public void drawitem(GOut g, Member m, int idx) {
-	    if(soughtitem(idx)) {
-		g.chcolor(255, 255, 0, 32);
-		g.frect(Coord.z, g.sz);
-		g.chcolor();
-	    }
+            if(soughtitem(idx)) {
+                g.chcolor(255, 255, 0, 32);
+                g.frect(Coord.z, g.sz);
+                g.chcolor();
+            }
             if ((mw instanceof MemberWidget) && Utils.eq(((MemberWidget) mw).id, m.id))
                 drawsel(g);
             Text rn;
@@ -98,7 +97,7 @@ public class Polity extends Widget {
                 rn = self;
             } else {
                 BuddyWnd.Buddy b = getparent(GameUI.class).buddies.find(m.id);
-		rn = (b == null) ? unk : (b.rname());
+                rn = (b == null) ? unk : (b.rname());
             }
             g.aimage(rn.tex(), new Coord(0, 10), 0, 0.5);
         }
@@ -151,7 +150,6 @@ public class Polity extends Widget {
             		authChange = auth;
             		saveChangeAuth(auth, acap);
             	}
-
                 g.chcolor(0, 0, 0, 255);
                 g.frect(new Coord(0, 0), new Coord(sz.x, sz.y));
                 g.chcolor(128, 0, 0, 255);

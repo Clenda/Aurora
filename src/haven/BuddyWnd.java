@@ -346,7 +346,6 @@ public class BuddyWnd extends Widget implements Iterable<BuddyWnd.Buddy> {
             }
             return num;
         }
-
         public boolean searchmatch(int idx, String txt) {return(buddies.get(idx).name.toLowerCase().indexOf(txt.toLowerCase()) >= 0);}
 
         protected void drawbg(GOut g) {
@@ -356,11 +355,11 @@ public class BuddyWnd extends Widget implements Iterable<BuddyWnd.Buddy> {
         }
 
         public void drawitem(GOut g, Buddy b, int idx) {
-	    if(soughtitem(idx)) {
-		g.chcolor(255, 255, 0, 32);
-		g.frect(Coord.z, g.sz);
-		g.chcolor();
-	    }
+            if(soughtitem(idx)) {
+                g.chcolor(255, 255, 0, 32);
+                g.frect(Coord.z, g.sz);
+                g.chcolor();
+            }
             if (b.online == 1)
                 g.image(online, Coord.z);
             else if (b.online == 0)
