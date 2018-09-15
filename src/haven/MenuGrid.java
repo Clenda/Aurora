@@ -279,6 +279,7 @@ public class MenuGrid extends Widget {
             p.add(paginafor(Resource.local().load("paginae/amber/trellisharvest")));
             p.add(paginafor(Resource.local().load("paginae/amber/trellisdestroy")));
             p.add(paginafor(Resource.local().load("paginae/amber/cheesetrayfiller")));
+            p.add(paginafor(Resource.local().load("paginae/amber/cheesetraysclicer")));
             p.add(paginafor(Resource.local().load("paginae/amber/equipweapon")));
             p.add(paginafor(Resource.local().load("paginae/amber/dismount")));
         }
@@ -479,6 +480,8 @@ public class MenuGrid extends Widget {
             new Thread(new TrellisDestroy(gui), "TrellisDestroy").start();
         } else if (ad[1].equals("cheesetray-fill")) {
             new Thread(new FillCheeseTray(gui), "FillCheeseTray").start();
+        } else if (ad[1].equals("cheesetray-slice")) {
+            new Thread(new SliceCheeseTray(gui), "SliceCheeseTray").start();
         } else if (ad[1].equals("equipweapon")) {
             new Thread(new EquipWeapon(gui), "EquipWeapon").start();
         } else if (ad[1].equals("dismount")) {
