@@ -334,17 +334,20 @@ public class Text {
             this.fnd = fnd;
         }
 
+        protected Text render(String text) {
+            return(fnd.render(text));
+        }
+
         protected String text(T value) {
             return (String.valueOf(value));
         }
-
-        protected Text render(String text) {return(fnd.render(text));}
+        
         protected abstract T value();
 
         public Text get() {
             T value = value();
             if (!Utils.eq(value, cv))
-            	cur = render(text(cv = value));
+                cur = render(text(cv = value));
             return (cur);
         }
 

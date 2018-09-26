@@ -897,16 +897,16 @@ public class CharWnd extends Window {
             }
 
             public Text render(String text) {
-            Text.Foundry fnd = (Text.Foundry)this.fnd;
-            Text.Line full = fnd.render(text);
-            if(full.sz().x <= namew)
+                Text.Foundry fnd = (Text.Foundry)this.fnd;
+                Text.Line full = fnd.render(text);
+                if(full.sz().x <= namew)
+                    return(full);
+                int ew = fnd.strsize("...").x;
+                for(int i = full.text.length() - 1; i > 0; i--) {
+                    if((full.advance(i) + ew) < namew)
+                        return(fnd.render(text.substring(0, i) + "..."));
+                }
                 return(full);
-            int ew = fnd.strsize("...").x;
-            for(int i = full.text.length() - 1; i > 0; i--) {
-                if((full.advance(i) + ew) < namew)
-                    return(fnd.render(text.substring(0, i) + "..."));
-            }
-            return(full);
             }
 
 		    /*
@@ -1786,10 +1786,10 @@ public class CharWnd extends Window {
             w.namew = sz.x - x;
             Text qd = w.rqd.get();
             if(qd != null) {
-				Tex tex = qd.tex();
-				g.aimage(tex, new Coord(sz.x - 15, itemh / 2), 1.0, 0.5);
-				w.namew -= tex.sz().x + 15 + 5;
-		    }
+                Tex tex = qd.tex();
+                g.aimage(tex, new Coord(sz.x - 15, itemh / 2), 1.0, 0.5);
+                w.namew -= tex.sz().x + 15 + 5;
+            }
             g.aimage(w.rnm.get().tex(), new Coord(x, itemh / 2), 0, 0.5);
         }
 
