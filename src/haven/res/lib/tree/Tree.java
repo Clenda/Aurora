@@ -7,8 +7,9 @@ public class Tree extends StaticSprite {
     public final float fscale;
     Message sdt;
 
-    public Tree(Owner owner, Resource res, float scale) {
-        super(owner, res, Message.nil);
+    public Tree(Owner owner, Resource res, float scale, Message std) {
+        super(owner, res, std);
+        this.sdt = std;	
         this.fscale = scale;
 
         if (Config.bonsai && scale > 0.6)
@@ -18,9 +19,22 @@ public class Tree extends StaticSprite {
         else
             this.scale = mkscale(scale);
     }
+    
+    private static Message invert( Message message) {
+        int n = 0;
+        int n2 = 0;
+        while (!message.eom()) {
+            n |= message.uint8() << n2;
+            n2 += 8;
+        }
+        final int n3 = -1 & ~n;
+        final MessageBuf messageBuf = new MessageBuf();
+        messageBuf.addint32(n3);
+        return (Message)new MessageBuf(messageBuf.fin());
+    }
 
     public Tree(Owner owner, Resource res, Message std) {
-        this(owner, res, std.eom() ? 1.0F : (float) std.uint8() / 100.0F);
+        this(owner, res, std.eom() ? 1.0F : (float) std.uint8() / 100.0F, invert(std));
         this.sdt = std;
     }
 
