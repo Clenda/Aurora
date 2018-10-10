@@ -2,7 +2,7 @@
 
 <project name="hafen" default="deftgt">
   <property name="name" value="Aurora"/>
-  <property name="version" value="2.2.11"/>
+  <property name="version" value="2.2.12"/>
 
   <target name="build-env">
     <mkdir dir="build" />
