@@ -16,11 +16,10 @@ public class SliceCheeseTray implements Runnable, WItemDestroyCallback {
     @Override
     public void run() {
         WItem tray;
-		while ((tray = Utils.findItemByPrefixInInv(gui.maininv, "gfx/invobjs/cheesetray")) != null) {
+		while ((tray = Utils.findItemInInv(gui.maininv, "gfx/invobjs/cheesetray")) != null) {
         	cheesetraydone = false;
         	tray.registerDestroyCallback(this);
-
-            FlowerMenu.setNextSelection("Slice Up");
+            FlowerMenu.setNextSelection("Slice up");
             gui.ui.lcc = tray.rootpos();
             tray.item.wdgmsg("iact", tray.c, 0);
 
