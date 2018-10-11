@@ -1,9 +1,14 @@
+Version 2.2.13
+	Misc:
+		* Upstream code merge.
+		
 Version 2.2.12
 	Fixed:
 		* hiding fruit layers in trees and bushes 
 	Misc:
 		* Added Break option to menu list.
 		* Upstream code merge.
+		
 Version 2.2.11
 	New:
 		*Slice all command : Slice All cheese tray in inventory
