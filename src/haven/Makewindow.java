@@ -84,17 +84,17 @@ public class Makewindow extends Widget {
                 g.aimage(num, Inventory.sqsz, 1.0, 1.0);
         }
 
-	private int opt = 0;
-	public boolean opt() {
-	    if(opt == 0) {
-		try {
-		    opt = (ItemInfo.find(Optional.class, info()) != null) ? 1 : 2;
-		} catch(Loading l) {
-		    return(false);
-		}
-	    }
-	    return(opt == 1);
-	}
+        private int opt = 0;
+        public boolean opt() {
+            if(opt == 0) {
+                try {
+                    opt = (ItemInfo.find(Optional.class, info()) != null) ? 1 : 2;
+                } catch(Loading l) {
+                    return(false);
+                }
+            }
+            return(opt == 1);
+        }
 
         public BufferedImage shorttip() {
             List<ItemInfo> info = info();
@@ -229,23 +229,24 @@ public class Makewindow extends Widget {
 
     public void draw(GOut g) {
         Coord c = new Coord(xoff, 0);
-	boolean popt = false;
-        for (Spec s : inputs) {
-	    boolean opt = s.opt();
-	    if(opt != popt)
-		c = c.add(10, 0);
+        boolean popt = false;
+        for(Spec s : inputs) {
+            boolean opt = s.opt();
+            if(opt != popt)
+                c = c.add(10, 0);
             GOut sg = g.reclip(c, Inventory.invsq.sz());
-	    if(opt) {
-		sg.chcolor(0, 255, 0, 255);
-		sg.image(Inventory.invsq, Coord.z);
-		sg.chcolor();
-	    } else {
-		sg.image(Inventory.invsq, Coord.z);
-	    }
+            if(opt) {
+                sg.chcolor(0, 255, 0, 255);
+                sg.image(Inventory.invsq, Coord.z);
+                sg.chcolor();
+            } else {
+                sg.image(Inventory.invsq, Coord.z);
+            }
             s.draw(sg);
             c = c.add(Inventory.sqsz.x, 0);
-	    popt = opt;
+            popt = opt;
         }
+
         if (qmod != null) {
             g.image(qmodl.tex(), new Coord(0, qmy + 4));
             c = new Coord(xoff, qmy);
@@ -335,28 +336,27 @@ public class Makewindow extends Widget {
             } catch (Loading l) {
             }
         }
-        find:
-        {
+        find: {
             c = new Coord(xoff, 0);
-	    boolean popt = false;
-            for (Spec s : inputs) {
-		boolean opt = s.opt();
-		if(opt != popt)
-		    c = c.add(10, 0);
-                if (mc.isect(c, Inventory.invsq.sz())) {
+            boolean popt = false;
+            for(Spec s : inputs) {
+                boolean opt = s.opt();
+                if(opt != popt)
+                    c = c.add(10, 0);
+                if(mc.isect(c, Inventory.invsq.sz())) {
                     tspec = s;
                     break find;
                 }
-		c = c.add(Inventory.sqsz.x, 0);
-		popt = opt;
+                c = c.add(Inventory.sqsz.x, 0);
+                popt = opt;
             }
             c = new Coord(xoff, outy);
-            for (Spec s : outputs) {
-                if (mc.isect(c, Inventory.invsq.sz())) {
+            for(Spec s : outputs) {
+                if(mc.isect(c, Inventory.invsq.sz())) {
                     tspec = s;
                     break find;
                 }
-		c = c.add(Inventory.sqsz.x, 0);
+                c = c.add(Inventory.sqsz.x, 0);
             }
         }
         if (lasttip != tspec) {
@@ -412,14 +412,14 @@ public class Makewindow extends Widget {
     }
 
     public static class Optional extends ItemInfo.Tip {
-	public static final Text text = RichText.render("$i{Optional}", 0);
-	public Optional(Owner owner) {
-	    super(owner);
-	}
+        public static final Text text = RichText.render("$i{Optional}", 0);
+        public Optional(Owner owner) {
+            super(owner);
+        }
 
-	public BufferedImage tipimg() {
-	    return(text.img);
-	}
+        public BufferedImage tipimg() {
+            return(text.img);
+        }
     }
 
     public static class MakePrep extends ItemInfo implements GItem.ColorInfo {

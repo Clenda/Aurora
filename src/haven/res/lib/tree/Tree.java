@@ -33,11 +33,12 @@ public class Tree extends StaticSprite {
         return (Message)new MessageBuf(messageBuf.fin());
     }
 
+
     public Tree(Owner owner, Resource res, Message std) {
         this(owner, res, std.eom() ? 1.0F : (float) std.uint8() / 100.0F, invert(std));
         this.sdt = std;
     }
-
+    
     public static Location mkscale(float var0, float var1, float var2) {
         return new Location(new Matrix4f(var0, 0.0F, 0.0F, 0.0F, 0.0F, var1, 0.0F, 0.0F, 0.0F, 0.0F, var2, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F));
     }
