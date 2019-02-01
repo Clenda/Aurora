@@ -270,7 +270,7 @@ public class MenuGrid extends Widget {
             p.add(paginafor(Resource.local().load("paginae/amber/rope")));
             p.add(paginafor(Resource.local().load("paginae/amber/fish")));
             p.add(paginafor(Resource.local().load("paginae/amber/timers")));
-            p.add(paginafor(Resource.local().load("paginae/amber/townspeaker")));
+            //p.add(paginafor(Resource.local().load("paginae/amber/townspeaker")));
             p.add(paginafor(Resource.local().load("paginae/amber/livestock")));
             p.add(paginafor(Resource.local().load("paginae/amber/shoo")));
             p.add(paginafor(Resource.local().load("paginae/amber/dream")));

@@ -1,3 +1,8 @@
+Version 2.2.15
+	Misc:
+		* Upstream code merge.
+			* correct crash on chopping
+
 Version 2.2.14
 	Misc:
 		* Upstream code merge.
