@@ -261,8 +261,6 @@ public class MenuGrid extends Widget {
         super.attach(ui);
         synchronized (paginae) {
             Collection<Pagina> p = paginae;
-            p.add(paginafor(Resource.local().load("paginae/amber/coal8")));
-            p.add(paginafor(Resource.local().load("paginae/amber/coal11")));
             p.add(paginafor(Resource.local().load("paginae/amber/coal9")));
             p.add(paginafor(Resource.local().load("paginae/amber/coal12")));
             p.add(paginafor(Resource.local().load("paginae/amber/branchoven")));
@@ -279,7 +277,7 @@ public class MenuGrid extends Widget {
             p.add(paginafor(Resource.local().load("paginae/amber/trellisharvest")));
             p.add(paginafor(Resource.local().load("paginae/amber/trellisdestroy")));
             p.add(paginafor(Resource.local().load("paginae/amber/cheesetrayfiller")));
-            p.add(paginafor(Resource.local().load("paginae/amber/cheesetraysclicer")));
+            //p.add(paginafor(Resource.local().load("paginae/amber/cheesetraysclicer")));
             p.add(paginafor(Resource.local().load("paginae/amber/equipweapon")));
             p.add(paginafor(Resource.local().load("paginae/amber/dismount")));
         }
@@ -458,9 +456,9 @@ public class MenuGrid extends Widget {
         } else if (ad[1].equals("timers")) {
             gui.timerswnd.show(!gui.timerswnd.visible);
             gui.timerswnd.raise();
-        } else if (ad[1].equals("townspeaker")) {
-            gui.townspeakerwnd.show(!gui.townspeakerwnd.visible);
-            gui.townspeakerwnd.raise();
+        //} else if (ad[1].equals("townspeaker")) {
+        //    gui.townspeakerwnd.show(!gui.townspeakerwnd.visible);
+        //    gui.townspeakerwnd.raise();
         } else if (ad[1].equals("clover")) {
             new Thread(new FeedClover(gui), "FeedClover").start();
         } else if (ad[1].equals("fish")) {
