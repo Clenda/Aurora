@@ -474,7 +474,8 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
                 name.endsWith("/wolverine") ||
                 name.endsWith("/adder") ||
                 name.endsWith("/wolf") ||
-                name.endsWith("/wildgoat"))
+                name.endsWith("/wildgoat") ||
+                name.endsWith("/goldeneagle"))
             type = Type.MOB;
         else if (name.endsWith("/minesupport") || name.endsWith("/ladder"))
             type = Type.WOODEN_SUPPORT;
