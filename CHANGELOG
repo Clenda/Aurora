@@ -1,6 +1,21 @@
+Version 2.2.17
+	Misc:
+		* Warning circle added to eagles.
+		
+	* Upstream code merge.
+		Fixed:
+        * Drying frames incorrectly highlighted when drying fish.
+        * Warning circle not showing around wolves.
+
+    	Misc:
+        * Re-enabled geo-location.
+        * Added more trees to the trees list and local resources to alarms.
+        * Add fireflies and waterstriders to icons list.
+        * Preserve :placegrid setting across client restarts.
+			
 Version 2.2.16
 	* Upstream code merge.
-		New :
+		New:
         	* Volume slider for bees.
 		Fixed:
         	* Crash when using world map.
