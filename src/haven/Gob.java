@@ -46,7 +46,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
 	        /* XXX: Remove me once local code is changed to use addol(). */
             if(glob.oc.getgob(id) != null) {
                 // FIXME: extend ols with a method for adding sprites without triggering changed.
-                if (item.id != Sprite.GROWTH_STAGE_ID && item != animalradius)
+                if (item.id != Sprite.GROWTH_STAGE_ID && item != animalradius && item != towercapraduis)
                     glob.oc.changed(Gob.this);
             }
             return(super.add(item));
@@ -62,6 +62,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
     private static final Material.Colors dframeDone = new Material.Colors(new Color(209, 42, 42, 255));
     private static final Material.Colors potDOne = new Material.Colors(new Color(0, 0, 0, 255));
     private static final Gob.Overlay animalradius = new Gob.Overlay(new BPRadSprite(100.0F, -10.0F, BPRadSprite.smatDanger));
+    private Gob.Overlay towercapraduis = new Gob.Overlay(new BPRadSprite(100.0F, -10.0F, BPRadSprite.smatDanger));
     public Boolean knocked = null;  // knocked will be null if pose update request hasn't been received yet
     public Type type = null;
 
@@ -69,7 +70,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
         OTHER(0), DFRAME(1), TREE(2), BUSH(3), BOULDER(4), PLAYER(5), SIEGE_MACHINE(6), MAMMOTH(7), BAT(8), OLDTRUNK(9), GARDENPOT(10), MUSSEL(11), LOC_RESOURCE(12), FU_YE_CURIO(13), SEAL(14), EAGLE(15),
         PLANT(16), MULTISTAGE_PLANT(17),
         MOB(32), BEAR(34), LYNX(35), TROLL(38), WALRUS(39),
-        WOODEN_SUPPORT(64), STONE_SUPPORT(65), METAL_SUPPORT(66), TROUGH(67), BEEHIVE(68);
+        WOODEN_SUPPORT(64), STONE_SUPPORT(65), METAL_SUPPORT(66), TROUGH(67), BEEHIVE(68), TOWERCAP(69);
 
         public final int value;
 
@@ -439,7 +440,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
     }
 
     public void determineType(String name) {
-        if (name.startsWith("gfx/terobjs/trees") && !name.endsWith("log") && !name.endsWith("oldtrunk"))
+        if (name.startsWith("gfx/terobjs/trees") && !name.endsWith("log") && !name.endsWith("oldtrunk") && !name.endsWith("towercap"))
             type = Type.TREE;
         else if (name.endsWith("oldtrunk"))
             type = Type.OLDTRUNK;
@@ -483,6 +484,8 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
             type = Type.STONE_SUPPORT;
         else if (name.endsWith("/minebeam"))
             type = Type.METAL_SUPPORT;
+        else if (name.endsWith("/towercap"))
+            type = Type.TOWERCAP;
         else if (name.endsWith("/trough"))
             type = Type.TROUGH;
         else if (name.endsWith("/beehive"))
@@ -556,7 +559,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
 
         Drawable d = getattr(Drawable.class);
         if (d != null) {
-            if (Config.hidegobs && (type == Type.TREE || type == Type.BUSH)) {
+            if (Config.hidegobs && (type == Type.TREE || type == Type.BUSH || type == Type.TOWERCAP)) {
                 GobHitbox.BBox bbox = GobHitbox.getBBox(this);
                 if (bbox != null) {
                     rl.add(new Overlay(new GobHitbox(this, bbox.a, bbox.b, true)), null);
@@ -591,7 +594,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
                     }
                 }
 
-                if (type == Type.TREE || type == Type.BUSH) {
+                if (type == Type.TREE || type == Type.BUSH || type == Type.TOWERCAP) {
                     ResDrawable rd = getattr(ResDrawable.class);
                     if (rd != null && !rd.sdt.eom()) {
                         final int stage = rd.sdt.peekrbuf(0);
@@ -605,6 +608,21 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
                         }
                     }
                 }
+            }
+            
+            if (Config.showminerad && type == Type.TOWERCAP)
+            {
+            	ResDrawable rd = getattr(ResDrawable.class);
+                if (rd != null && !rd.sdt.eom()) {
+                	final int stage = rd.sdt.peekrbuf(0);
+                	if (stage >= 0 && stage < 101 && !ols.contains(towercapraduis)) {
+                		towercapraduis = new Gob.Overlay(new BPRadSprite((1.0F*stage)-1.0F, 0, BPRadSprite.smatDanger));
+                		ols.add(towercapraduis);
+                	}
+                }
+            }
+            else if(ols.contains(towercapraduis)){
+            	ols.remove(towercapraduis);
             }
 
             if (Config.showanimalrad && Type.MOB.has(type)) {
