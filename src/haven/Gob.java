@@ -62,7 +62,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
     private static final Material.Colors dframeDone = new Material.Colors(new Color(209, 42, 42, 255));
     private static final Material.Colors potDOne = new Material.Colors(new Color(0, 0, 0, 255));
     private static final Gob.Overlay animalradius = new Gob.Overlay(new BPRadSprite(100.0F, -10.0F, BPRadSprite.smatDanger));
-    private Gob.Overlay towercapraduis = new Gob.Overlay(new BPRadSprite(100.0F, -10.0F, BPRadSprite.smatDanger));
+    private Gob.Overlay towercapraduis;
     public Boolean knocked = null;  // knocked will be null if pose update request hasn't been received yet
     public Type type = null;
 
@@ -615,8 +615,14 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
             	ResDrawable rd = getattr(ResDrawable.class);
                 if (rd != null && !rd.sdt.eom()) {
                 	final int stage = rd.sdt.peekrbuf(0);
-                	if (stage >= 0 && stage < 101 && !ols.contains(towercapraduis)) {
-                		towercapraduis = new Gob.Overlay(new BPRadSprite((1.0F*stage)-1.0F, 0, BPRadSprite.smatDanger));
+                	if(!ols.contains(towercapraduis)) {
+                		if (stage >= 0 && stage < 101) {
+	                		towercapraduis = new Gob.Overlay(new BPRadSprite((1.0F*stage)-1.0F, -10.0F, BPRadSprite.smatDanger));
+                		}
+                		else
+                		{
+                			towercapraduis = new Gob.Overlay(new BPRadSprite(100.0F, -10.0F, BPRadSprite.smatDanger));
+                		}
                 		ols.add(towercapraduis);
                 	}
                 }
