@@ -612,20 +612,20 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
             
             if (Config.showminerad && type == Type.TOWERCAP)
             {
-            	ResDrawable rd = getattr(ResDrawable.class);
-                if (rd != null && !rd.sdt.eom()) {
-                	final int stage = rd.sdt.peekrbuf(0);
-                	if(!ols.contains(towercapraduis)) {
+            	if(!ols.contains(towercapraduis)) {
+            	
+            		ResDrawable rd = getattr(ResDrawable.class);
+            		if (rd != null && !rd.sdt.eom()) {
+            			final int stage = rd.sdt.peekrbuf(0);
                 		if (stage >= 0 && stage < 101) {
-	                		towercapraduis = new Gob.Overlay(new BPRadSprite((1.0F*stage)-1.0F, -10.0F, BPRadSprite.smatDanger));
+	                		towercapraduis = new Gob.Overlay(new BPRadSprite((1.0F*stage)-1.0F, 0, BPRadSprite.smatDanger));
                 		}
-                		else
-                		{
-                			towercapraduis = new Gob.Overlay(new BPRadSprite(100.0F, -10.0F, BPRadSprite.smatDanger));
-                		}
-                		ols.add(towercapraduis);
+                	} else
+                	{
+        			towercapraduis = new Gob.Overlay(new BPRadSprite(100.0F, 0, BPRadSprite.smatDanger));
                 	}
-                }
+            		ols.add(towercapraduis);
+            	}
             }
             else if(ols.contains(towercapraduis)){
             	ols.remove(towercapraduis);
