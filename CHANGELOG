@@ -1,3 +1,6 @@
+Version 2.2.19
+	Fixed:
+		* fix radius for full grow towercap 
 Version 2.2.18
 	Add:
 		* Range support from Towercap.
