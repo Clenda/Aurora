@@ -1,3 +1,12 @@
+Version 2.2.20
+	* Upstream code merge.
+		New:
+	        * Minimap zoom and icon tooltips (by Ropston).
+	        * Options to drop soil and everything from the inventory (by lcy03406).
+	
+	    Misc:
+	        * Updated stones list.
+	        * Updated wound treatments.
 Version 2.2.19
 	Fixed:
 		* fix radius for full grow towercap 
