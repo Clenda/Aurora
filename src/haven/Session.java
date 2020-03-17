@@ -26,13 +26,15 @@
 
 package haven;
 
+import integrations.map.Navigation;
+
 import java.net.*;
 import java.util.*;
 import java.io.*;
 import java.lang.ref.*;
 
 public class Session implements Resource.Resolver {
-    public static final int PVER = 18;
+    public static final int PVER = 23;
 
     public static final int MSG_SESS = 0;
     public static final int MSG_REL = 1;
@@ -611,6 +613,7 @@ public class Session implements Resource.Resolver {
         sworker.start();
         ticker = new Ticker();
         ticker.start();
+        Navigation.reset();
     }
 
     private void sendack(int seq) {

@@ -31,6 +31,7 @@ import haven.automation.*;
 import haven.pathfinder.PFListener;
 import haven.pathfinder.Pathfinder;
 import haven.resutil.BPRadSprite;
+import integrations.map.Navigation;
 
 import javax.media.opengl.GL;
 import java.awt.*;
@@ -368,6 +369,11 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
         }
     }
 
+    public static KeyBinding kb_camleft  = KeyBinding.get("cam-left",  KeyMatch.forcode(KeyEvent.VK_LEFT, 0));
+    public static KeyBinding kb_camright = KeyBinding.get("cam-right", KeyMatch.forcode(KeyEvent.VK_RIGHT, 0));
+    public static KeyBinding kb_camin    = KeyBinding.get("cam-in",    KeyMatch.forcode(KeyEvent.VK_UP, 0));
+    public static KeyBinding kb_camout   = KeyBinding.get("cam-out",   KeyMatch.forcode(KeyEvent.VK_DOWN, 0));
+    public static KeyBinding kb_camreset = KeyBinding.get("cam-reset", KeyMatch.forcode(KeyEvent.VK_HOME, 0));
     public class SOrthoCam extends OrthoCam {
         private Coord dragorig = null;
         private float anglorig;
@@ -507,6 +513,9 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
         this.glob = glob;
         this.cc = cc;
         this.plgob = plgob;
+        try {
+            Navigation.setCharacterId(plgob, glob.oc.getgob(plgob).rc);
+        } catch (Exception ex) {}
         this.gobs = new Gobs();
         this.gridol = new TileOutline(glob.map);
         this.partyHighlight = new PartyHighlight(glob.party, plgob);

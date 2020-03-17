@@ -32,7 +32,7 @@ import java.util.*;
 
 import haven.ItemInfo.AttrCache;
 
-public class Buff extends Widget implements ItemInfo.ResOwner {
+public class Buff extends Widget implements ItemInfo.ResOwner, Bufflist.Managed {
     public static final Text.Foundry nfnd = new Text.Foundry(Text.dfont, 10);
     public static final Tex frame = Resource.loadtex("gfx/hud/buffs/frame");
     public static final Tex cframe = Resource.loadtex("gfx/hud/buffs/cframe");
@@ -206,17 +206,17 @@ public class Buff extends Widget implements ItemInfo.ResOwner {
     }
 
     public void reqdestroy() {
-        anims.clear();
-        final Coord o = this.c;
-        dest = true;
-        new NormAnim(0.5) {
-            public void ntick(double a) {
-                Buff.this.a = 255 - (int) (255 * a);
-                Buff.this.c = o.add(0, (int) (a * a * cframe.sz().y));
-                if (a == 1.0)
-                    destroy();
-            }
-        };
+	anims.clear();
+	final Coord o = this.c;
+	dest = true;
+	new NormAnim(0.35) {
+	    public void ntick(double a) {
+		Buff.this.a = 255 - (int)(255 * a);
+		Buff.this.c = o.add(0, (int)(a * a * cframe.sz().y));
+		if(a == 1.0)
+		    destroy();
+	    }
+	};
     }
 
     public void move(Coord c, double off) {
@@ -244,6 +244,7 @@ public class Buff extends Widget implements ItemInfo.ResOwner {
         } else if (msg == "tt") {
             info = null;
             rawinfo = new ItemInfo.Raw(args);
+            shorttip = longtip = null;
         } else if (msg == "tip") {
             String tt = (String) args[0];
             this.tt = tt.equals("") ? null : tt;

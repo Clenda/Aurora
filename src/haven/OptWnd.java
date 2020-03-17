@@ -40,10 +40,11 @@ import java.util.prefs.BackingStoreException;
 import java.util.stream.Collectors;
 
 public class OptWnd extends Window {
+    private static final Text.Foundry sectionfndr = new Text.Foundry(Text.dfont.deriveFont(Font.BOLD, Text.cfg.label));
     public static final int VERTICAL_MARGIN = 10;
     public static final int HORIZONTAL_MARGIN = 5;
     public static final int VERTICAL_AUDIO_MARGIN = 5;
-    public final Panel main, video, audio, display, map, general, combat, control, uis, quality, flowermenus, soundalarms;
+    public final Panel main, video, audio, display, map, general, combat, control, mapping, uis, quality, flowermenus, soundalarms, keybind;
     public Panel current;
 
     public void chpanel(Panel p) {
@@ -66,8 +67,8 @@ public class OptWnd extends Window {
             chpanel(tgt);
         }
 
-        public boolean type(char key, java.awt.event.KeyEvent ev) {
-            if ((this.key != -1) && (key == this.key)) {
+        public boolean keydown(java.awt.event.KeyEvent ev) {
+            if((this.key != -1) && (ev.getKeyChar() == this.key)) {
                 click();
                 return (true);
             }
@@ -326,15 +327,17 @@ public class OptWnd extends Window {
         general = add(new Panel());
         combat = add(new Panel());
         control = add(new Panel());
+        mapping = add(new Panel());
         uis = add(new Panel());
         quality = add(new Panel());
         flowermenus = add(new Panel());
         soundalarms = add(new Panel());
+        keybind = add(new Panel());
 
         initMain(gopts);
         initAudio();
         initDisplay();
-        initMap();
+        initMinimap();
         initGeneral();
         initCombat();
         initControl();
@@ -342,6 +345,8 @@ public class OptWnd extends Window {
         initQuality();
         initFlowermenus();
         initSoundAlarms();
+        initKeyBind();
+        initMapping();
 
         chpanel(main);
     }
@@ -350,14 +355,16 @@ public class OptWnd extends Window {
         main.add(new PButton(200, "Video settings", 'v', video), new Coord(0, 0));
         main.add(new PButton(200, "Audio settings", 'a', audio), new Coord(0, 30));
         main.add(new PButton(200, "Display settings", 'd', display), new Coord(0, 60));
-        main.add(new PButton(200, "Map settings", 'm', map), new Coord(0, 90));
+        main.add(new PButton(200, "Minimap settings", 'm', map), new Coord(0, 90));
         main.add(new PButton(200, "General settings", 'g', general), new Coord(210, 0));
         main.add(new PButton(200, "Combat settings", 'c', combat), new Coord(210, 30));
         main.add(new PButton(200, "Control settings", 'k', control), new Coord(210, 60));
-        main.add(new PButton(200, "UI settings", 'u', uis), new Coord(210, 90));
+        main.add(new PButton(200, "Mapping settings", 'e', mapping), new Coord(210, 90));
+        main.add(new PButton(200, "UI settings", 'u', uis), new Coord(210, 120));
         main.add(new PButton(200, "Quality settings", 'q', quality), new Coord(420, 0));
         main.add(new PButton(200, "Menu settings", 'f', flowermenus), new Coord(420, 30));
         main.add(new PButton(200, "Sound alarms", 's', soundalarms), new Coord(420, 60));
+        main.add(new PButton(200, "Key Bindings", 'b', keybind), new Coord(420, 90));
         if (gopts) {
             main.add(new Button(200, "Switch character") {
                 public void click() {
@@ -680,7 +687,7 @@ public class OptWnd extends Window {
         });
     }
 
-    private void initMap() {
+    private void initMinimap() {
         map.add(new Label("Show boulders:"), new Coord(10, 0));
         map.add(new Label("Show bushes:"), new Coord(165, 0));
         map.add(new Label("Show trees:"), new Coord(320, 0));
@@ -714,17 +721,6 @@ public class OptWnd extends Window {
                 }
             }
         });
-        appender.add(new CheckBox("Save map tiles to disk") {
-            {
-                a = Config.savemmap;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("savemmap", val);
-                Config.savemmap = val;
-                MapGridSave.mgs = null;
-                a = val;
-            }
         });  
         appender.add(new CheckBox("Show Authority change in System chat") {
             {
@@ -904,6 +900,17 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Send food details to the food service (https://food.havenandhearth.link)") {
+            {
+                a = Config.foodService;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("foodService", val);
+                Config.foodService = val;
+                a = val;
+            }
+        });
         general.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
         general.pack();
     }
@@ -1013,7 +1020,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.addRow(new Label("Combat key bindings:"), combatkeysDropdown());
 
         combat.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
         combat.pack();
@@ -1122,17 +1128,6 @@ public class OptWnd extends Window {
             public void set(boolean val) {
                 Utils.setprefb("enableorthofullzoom", val);
                 Config.enableorthofullzoom = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Disable hotkey (tilde/back-quote key) for drinking") {
-            {
-                a = Config.disabledrinkhotkey;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("disabledrinkhotkey", val);
-                Config.disabledrinkhotkey = val;
                 a = val;
             }
         });
@@ -1248,7 +1243,7 @@ public class OptWnd extends Window {
         appender.addRow(new Label("Tree bounding box color (6-digit HEX):"),
                 new TextEntry(85, Config.treeboxclr) {
                     @Override
-                    public boolean type(char c, KeyEvent ev) {
+                    public boolean keydown(KeyEvent ev) {
                         if (!parent.visible)
                             return false;
 
@@ -1628,6 +1623,249 @@ public class OptWnd extends Window {
         soundalarms.pack();
     }
 
+    private void initMapping() {
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(mapping, new Coord(620, 350)));
+
+        appender.setVerticalMargin(VERTICAL_MARGIN);
+        appender.setHorizontalMargin(HORIZONTAL_MARGIN);
+
+        appender.add(new Label("Online Auto-Mapper Service:", sectionfndr));
+
+        appender.addRow(new Label("Mapping server URL (req. restart):"),
+                new TextEntry(240, Config.mapperUrl) {
+                    @Override
+                    public boolean keydown(KeyEvent ev) {
+                        if (!parent.visible)
+                            return false;
+                        Utils.setpref("mapperUrl", text);
+                        return buf.key(ev);
+                    }
+                }
+        );
+        appender.add(new CheckBox("Hide character name") {
+            {
+                a = Config.mapperHashName;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("mapperHashName", val);
+                Config.mapperHashName = val;
+                a = val;
+            }
+        });
+        appender.add(new CheckBox("Enable navigation tracking") {
+            {
+                a = Config.enableNavigationTracking;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("enableNavigationTracking", val);
+                Config.enableNavigationTracking = val;
+                a = val;
+            }
+        });
+        appender.add(new CheckBox("Upload custom GREEN markers to map") {
+            {
+                a = Config.sendCustomMarkers;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("sendCustomMarkers", val);
+                Config.sendCustomMarkers = val;
+                a = val;
+            }
+        });
+
+        appender.add(new Label(""));
+        appender.add(new Label("Locally saved map tiles for 3rd party tools:", sectionfndr));
+
+        appender.add(new CheckBox("Save map tiles to disk") {
+            {
+                a = Config.savemmap;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("savemmap", val);
+                Config.savemmap = val;
+                MapGridSave.mgs = null;
+                a = val;
+            }
+        });
+
+        mapping.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
+        mapping.pack();
+    }
+
+    private static final Text kbtt = RichText.render("$col[255,255,0]{Escape}: Cancel input\n" +
+            "$col[255,255,0]{Backspace}: Revert to default\n" +
+            "$col[255,255,0]{Delete}: Disable keybinding", 0);
+
+    private final static int KB_NAME_W = 170;
+
+    private void initKeyBind() {
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(keybind, new Coord(620, 350)));
+
+        appender.setVerticalMargin(VERTICAL_MARGIN);
+        appender.setHorizontalMargin(HORIZONTAL_MARGIN);
+
+        appender.addRow(KB_NAME_W, new Label("Inventory"), new SetButton(175, GameUI.kb_inv));
+        appender.addRow(KB_NAME_W, new Label("Equipment"), new SetButton(175, GameUI.kb_equ));
+        appender.addRow(KB_NAME_W, new Label("Character sheet"), new SetButton(175, GameUI.kb_chr));
+        appender.addRow(KB_NAME_W, new Label("Kith & Kin"), new SetButton(175, GameUI.kb_bud));
+        appender.addRow(KB_NAME_W, new Label("Options"), new SetButton(175, GameUI.kb_opt));
+        appender.addRow(KB_NAME_W, new Label("Toggle chat"), new SetButton(175, GameUI.kb_chat));
+        appender.addRow(KB_NAME_W, new Label("Quick chat"), new SetButton(175, ChatUI.kb_quick));
+        appender.addRow(KB_NAME_W, new Label("Take screenshot & Upload "), new SetButton(175, GameUI.kb_shoot));
+        appender.addRow(KB_NAME_W, new Label("Take screenshot & Save"), new SetButton(175, GameUI.kb_shoot_save));
+        appender.addRow(KB_NAME_W, new Label("Combat action 1"), new SetButton(175, Fightsess.kb_acts[0]));
+        for(int i = 1; i < Fightsess.kb_acts.length; i++) {
+            appender.addRow(KB_NAME_W, new Label("Combat action " + (i + 1)), new SetButton(175, Fightsess.kb_acts[i]));
+        }
+        appender.addRow(KB_NAME_W, new Label("Switch combat opponent"), new SetButton(175, Fightsess.kb_switch));
+        appender.addRow(KB_NAME_W, new Label("Drink hotkey"), new SetButton(175, GameUI.kb_drink));
+
+        appender.addRow(KB_NAME_W, new Label("Bind other elements..."), new PointBind(200));
+
+        keybind.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
+        keybind.pack();
+    }
+
+    public static class PointBind extends Button {
+        public static final String msg = "Bind other elements...";
+        public static final Resource curs = Resource.local().loadwait("gfx/hud/curs/wrench");
+        private UI.Grab mg, kg;
+        private KeyBinding cmd;
+
+        public PointBind(int w) {
+            super(w, msg, false);
+            tooltip = RichText.render("Bind a key to an element not listed above, such as an action-menu " +
+                            "button. Click the element to bind, and then press the key to bind to it. " +
+                            "Right-click to stop rebinding.",
+                    300);
+        }
+
+        public void click() {
+            if(mg == null) {
+                change("Click element...");
+                mg = ui.grabmouse(this);
+            } else if(kg != null) {
+                kg.remove();
+                kg = null;
+                change(msg);
+            }
+        }
+
+        private boolean handle(KeyEvent ev) {
+            switch(ev.getKeyCode()) {
+                case KeyEvent.VK_SHIFT: case KeyEvent.VK_CONTROL: case KeyEvent.VK_ALT:
+                case KeyEvent.VK_META: case KeyEvent.VK_WINDOWS:
+                    return(false);
+            }
+            int code = ev.getKeyCode();
+            if(code == KeyEvent.VK_ESCAPE) {
+                return(true);
+            }
+            if(code == KeyEvent.VK_BACK_SPACE) {
+                cmd.set(null);
+                return(true);
+            }
+            if(code == KeyEvent.VK_DELETE) {
+                cmd.set(KeyMatch.nil);
+                return(true);
+            }
+            KeyMatch key = KeyMatch.forevent(ev, ~cmd.modign);
+            if(key != null)
+                cmd.set(key);
+            return(true);
+        }
+
+        public boolean mousedown(Coord c, int btn) {
+            if(mg == null)
+                return(super.mousedown(c, btn));
+            Coord gc = ui.mc;
+            if(btn == 1) {
+                this.cmd = KeyBinding.Bindable.getbinding(ui.root, gc);
+                return(true);
+            }
+            if(btn == 3) {
+                mg.remove();
+                mg = null;
+                change(msg);
+                return(true);
+            }
+            return(false);
+        }
+
+        public boolean mouseup(Coord c, int btn) {
+            if(mg == null)
+                return(super.mouseup(c, btn));
+            Coord gc = ui.mc;
+            if(btn == 1) {
+                if((this.cmd != null) && (KeyBinding.Bindable.getbinding(ui.root, gc) == this.cmd)) {
+                    mg.remove();
+                    mg = null;
+                    kg = ui.grabkeys(this);
+                    change("Press key...");
+                } else {
+                    this.cmd = null;
+                }
+                return(true);
+            }
+            if(btn == 3)
+                return(true);
+            return(false);
+        }
+
+        public Resource getcurs(Coord c) {
+            if(mg == null)
+                return(null);
+            return(curs);
+        }
+
+        public boolean keydown(KeyEvent ev) {
+            if(kg == null)
+                return(super.keydown(ev));
+            if(handle(ev)) {
+                kg.remove();
+                kg = null;
+                cmd = null;
+                change("Click another element...");
+                mg = ui.grabmouse(this);
+            }
+            return(true);
+        }
+    }
+
+    public class SetButton extends KeyMatch.Capture {
+        public final KeyBinding cmd;
+
+        public SetButton(int w, KeyBinding cmd) {
+            super(w, cmd.key());
+            this.cmd = cmd;
+        }
+
+        public void set(KeyMatch key) {
+            super.set(key);
+            cmd.set(key);
+        }
+
+        protected KeyMatch mkmatch(KeyEvent ev) {
+            return(KeyMatch.forevent(ev, ~cmd.modign));
+        }
+
+        protected boolean handle(KeyEvent ev) {
+            if (ev.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                cmd.set(null);
+                super.set(cmd.key());
+                return (true);
+            }
+            return (super.handle(ev));
+        }
+
+        public Object tooltip(Coord c, Widget prev) {
+            return (kbtt.tex());
+        }
+    }
 
     private Dropbox<Locale> langDropdown() {
         List<Locale> languages = enumerateLanguages();
@@ -1718,42 +1956,6 @@ public class OptWnd extends Window {
         }
 
         return new ArrayList<Locale>(languages);
-    }
-
-    private static final Pair[] combatkeys = new Pair[]{
-            new Pair<>("[1-5] and [shift + 1-5]", 0),
-            new Pair<>("[1-5] and [F1-F5]", 1),
-            new Pair<>("[F1-F10]", 2)
-    };
-
-    @SuppressWarnings("unchecked")
-    private Dropbox<Pair<String, Integer>> combatkeysDropdown() {
-        List<String> values = Arrays.stream(combatkeys).map(x -> x.a.toString()).collect(Collectors.toList());
-        Dropbox<Pair<String, Integer>> modes = new Dropbox<Pair<String, Integer>>(combatkeys.length, values) {
-            @Override
-            protected Pair<String, Integer> listitem(int i) {
-                return combatkeys[i];
-            }
-
-            @Override
-            protected int listitems() {
-                return combatkeys.length;
-            }
-
-            @Override
-            protected void drawitem(GOut g, Pair<String, Integer> item, int i) {
-                g.text(item.a, Coord.z);
-            }
-
-            @Override
-            public void change(Pair<String, Integer> item) {
-                super.change(item);
-                Config.combatkeys = item.b;
-                Utils.setprefi("combatkeys", item.b);
-            }
-        };
-        modes.change(combatkeys[Config.combatkeys]);
-        return modes;
     }
 
     private static final List<Integer> fontSize = Arrays.asList(10, 11, 12, 13, 14, 15, 16);

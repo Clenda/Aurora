@@ -27,6 +27,7 @@
 package haven;
 
 import haven.resutil.BPRadSprite;
+import integrations.map.Navigation;
 
 import java.awt.*;
 import java.util.*;
@@ -68,7 +69,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
 
     public enum Type {
         OTHER(0), DFRAME(1), TREE(2), BUSH(3), BOULDER(4), PLAYER(5), SIEGE_MACHINE(6), MAMMOTH(7), BAT(8), OLDTRUNK(9), GARDENPOT(10), MUSSEL(11), LOC_RESOURCE(12), FU_YE_CURIO(13), SEAL(14), EAGLE(15),
-        PLANT(16), MULTISTAGE_PLANT(17),
+        PLANT(16), MULTISTAGE_PLANT(17), PLANT_FALLOW(18),
         MOB(32), BEAR(34), LYNX(35), TROLL(38), WALRUS(39),
         WOODEN_SUPPORT(64), STONE_SUPPORT(65), METAL_SUPPORT(66), TROUGH(67), BEEHIVE(68), TOWERCAP(69);
 
@@ -281,6 +282,9 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
         if (m != null)
             m.move(c);
         this.rc = c;
+        if (isplayer()) {
+            Navigation.setPlayerCoordinates(c);
+        }
         this.a = a;
     }
 
@@ -446,6 +450,8 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
             type = Type.OLDTRUNK;
         else if (name.endsWith("terobjs/plants/carrot") || name.endsWith("terobjs/plants/hemp"))
             type = Type.MULTISTAGE_PLANT;
+        else if (name.endsWith("/fallowplant"))
+            type = Type.PLANT_FALLOW;
         else if (name.startsWith("gfx/terobjs/plants") && !name.endsWith("trellis"))
             type = Type.PLANT;
         else if (name.startsWith("gfx/terobjs/bushes"))
@@ -585,25 +591,30 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
                         }
                     }
                     Overlay ol = findol(Sprite.GROWTH_STAGE_ID);
-                    if (ol == null && (stage == cropstgmaxval || stage > 0 && stage < 6)) {
-                        addol(new Gob.Overlay(Sprite.GROWTH_STAGE_ID, new PlantStageSprite(stage, cropstgmaxval, type == Type.MULTISTAGE_PLANT)));
-                    } else if (stage <= 0 || (stage != cropstgmaxval && stage >= 6)) {
-                        ols.remove(ol);
-                    } else if (((PlantStageSprite) ol.spr).stg != stage) {
-                        ((PlantStageSprite) ol.spr).update(stage, cropstgmaxval);
+                    if (type == Type.PLANT_FALLOW) {
+                        if (ol == null)
+                            addol(new Gob.Overlay(Sprite.GROWTH_STAGE_ID, new PlantStageSprite(stage, -1, false)));
+                    } else {
+                        if (ol == null && (stage == cropstgmaxval || stage > 0 && stage < 6)) {
+                            addol(new Gob.Overlay(Sprite.GROWTH_STAGE_ID, new PlantStageSprite(stage, cropstgmaxval, type == Type.MULTISTAGE_PLANT)));
+                        } else if (stage <= 0 || (stage != cropstgmaxval && stage >= 6)) {
+                            ols.remove(ol);
+                        } else if (((PlantStageSprite) ol.spr).stg != stage) {
+                            ((PlantStageSprite) ol.spr).update(stage, cropstgmaxval);
+                        }
                     }
                 }
 
                 if (type == Type.TREE || type == Type.BUSH || type == Type.TOWERCAP) {
                     ResDrawable rd = getattr(ResDrawable.class);
-                    if (rd != null && !rd.sdt.eom()) {
-                        final int stage = rd.sdt.peekrbuf(0);
-                        if (stage >= 0 && stage < 100) {
+                    if (rd != null) {
+                        int fscale = rd.sdt.peekrbuf(1);
+                        if (fscale != -1) {
                             Overlay ol = findol(Sprite.GROWTH_STAGE_ID);
                             if (ol == null) {
-                                addol(new Gob.Overlay(Sprite.GROWTH_STAGE_ID, new TreeStageSprite(stage)));
-                            } else if (((TreeStageSprite)ol.spr).val != stage) {
-                                ((TreeStageSprite)ol.spr).update(stage);
+                                addol(new Gob.Overlay(Sprite.GROWTH_STAGE_ID, new TreeStageSprite(fscale)));
+                            } else if (((TreeStageSprite) ol.spr).val != fscale) {
+                                ((TreeStageSprite) ol.spr).update(fscale);
                             }
                         }
                     }

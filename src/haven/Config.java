@@ -46,10 +46,15 @@ public class Config {
     public static boolean dbtext = false;
     public static boolean profile = false;
     public static boolean profilegpu = false;
+    public static String resdir = getprop("haven.resdir", System.getenv("HAFEN_RESDIR"));
     public static boolean nopreload = false;
     public static int mainport = 1870;
     public static int authport = 1871;
     public static URL screenurl = geturl("http://game.havenandhearth.com/mt/ss");
+    public static boolean enableNavigationTracking = Utils.getprefb("enableNavigationTracking", false);
+    public static boolean sendCustomMarkers = Utils.getprefb("sendCustomMarkers", false);
+    public static String mapperUrl = Utils.getpref("mapperUrl", "http://example.com");
+    public static boolean mapperHashName = Utils.getprefb("mapperHashName", true);
     public static boolean hideflocomplete = Utils.getprefb("hideflocomplete", false);
     public static boolean hideflovisual = Utils.getprefb("hideflovisual", false);
     public static boolean daylight = Utils.getprefb("daylight", false);
@@ -142,9 +147,7 @@ public class Config {
     public static double alarmbramvol = Utils.getprefd("alarmbramvol", 1.0);
     public static double sfxwhipvol = Utils.getprefd("sfxwhipvol", 0.9);
     public static boolean showarchvector =  Utils.getprefb("showarchvector", false);
-    public static boolean disabledrinkhotkey =  Utils.getprefb("disabledrinkhotkey", false);
     public static boolean autologout =  Utils.getprefb("autologout", false);
-    public static int combatkeys =  Utils.getprefi("combatkeys", 0);
     public static boolean logcombatactions =  Utils.getprefb("logcombatactions", false);
     public static boolean autopickmussels =  Utils.getprefb("autopickmussels", false);
     public static boolean confirmmagic =  Utils.getprefb("confirmmagic", true);
@@ -165,6 +168,7 @@ public class Config {
     public static String font = Utils.getpref("font", "SansSerif");
     public static int fontadd = Utils.getprefi("fontadd", 0);
     public static boolean proximityaggro = Utils.getprefb("proximityaggro", false);
+    public static boolean foodService = Utils.getprefb("foodService", false);
     public static boolean pf = false;
     public static String playerposfile;
     public static byte[] authck = null;
@@ -176,7 +180,7 @@ public class Config {
     public final static String chatfile = "chatlog.txt";
     public static PrintWriter chatlog = null;
 
-    public final static HashMap<String, CheckListboxItem> boulders = new HashMap<String, CheckListboxItem>(27) {{
+    public final static HashMap<String, CheckListboxItem> boulders = new HashMap<String, CheckListboxItem>(31) {{
         put("basalt", new CheckListboxItem("Basalt"));
         put("schist", new CheckListboxItem("Schist"));
         put("dolomite", new CheckListboxItem("Dolomite"));
@@ -204,9 +208,13 @@ public class Config {
         put("orthoclase", new CheckListboxItem("Orthoclase"));
         put("soapstone", new CheckListboxItem("Soapstone"));
         put("sodalite", new CheckListboxItem("Sodalite"));
+        put("breccia", new CheckListboxItem("Breccia"));
+        put("diabase", new CheckListboxItem("Diabase"));
+        put("arkose", new CheckListboxItem("Arkose"));
+        put("diorite", new CheckListboxItem("Diorite"));
     }};
 
-    public final static HashMap<String, CheckListboxItem> bushes = new HashMap<String, CheckListboxItem>(23) {{
+    public final static HashMap<String, CheckListboxItem> bushes = new HashMap<String, CheckListboxItem>(24) {{
         put("arrowwood", new CheckListboxItem("Arrowwood"));
         put("crampbark", new CheckListboxItem("Crampbark"));
         put("sandthorn", new CheckListboxItem("Sandthorn"));
@@ -230,9 +238,10 @@ public class Config {
         put("caprifole", new CheckListboxItem("Caprifole"));
         put("redcurrant", new CheckListboxItem("Redcurrant"));
         put("gorse", new CheckListboxItem("Gorse"));
+        put("mastic", new CheckListboxItem("Mastic"));
     }};
 
-    public final static HashMap<String, CheckListboxItem> trees = new HashMap<String, CheckListboxItem>(54) {{
+    public final static HashMap<String, CheckListboxItem> trees = new HashMap<String, CheckListboxItem>(59) {{
         put("alder", new CheckListboxItem("Alder"));
         put("corkoak", new CheckListboxItem("Corkoak"));
         put("plumtree", new CheckListboxItem("Plum Tree"));
@@ -287,9 +296,14 @@ public class Config {
         put("persimmontree", new CheckListboxItem("Persimmon"));
         put("medlartree", new CheckListboxItem("Medlar"));
         put("silverfir", new CheckListboxItem("Silver Fir"));
+        put("mayflower", new CheckListboxItem("Mayflower"));
+        put("stonepine", new CheckListboxItem("Stone Pine"));
+        put("blackpine", new CheckListboxItem("Black Pine"));
+        put("lemontree", new CheckListboxItem("Lemon Tree"));
+        put("strawberrytree", new CheckListboxItem("Wood Strawberry"));
     }};
 
-    public final static HashMap<String, CheckListboxItem> icons = new HashMap<String, CheckListboxItem>(49) {{
+    public final static HashMap<String, CheckListboxItem> icons = new HashMap<String, CheckListboxItem>(50) {{
         put("dandelion", new CheckListboxItem("Dandelion"));
         put("chantrelle", new CheckListboxItem("Chantrelle"));
         put("blueberry", new CheckListboxItem("Blueberry"));
@@ -340,6 +354,7 @@ public class Config {
         put("mistletoe", new CheckListboxItem("Mistletoe"));
         put("waterstrider", new CheckListboxItem("Waterstrider"));
         put("firefly", new CheckListboxItem("Firefly"));
+        put("duskfern", new CheckListboxItem("Cave Fern"));
     }};
 
     public final static HashMap<String, CheckListboxItem> flowermenus = new HashMap<String, CheckListboxItem>(19) {{
@@ -438,9 +453,14 @@ public class Config {
             "soapstone",
             "sodalite",
             "olivine",
-            "alabaster"
+            "alabaster",
+            "breccia",
+            "diabase",
+            "arkose",
+            "diorite",
+            "kyanite",
+            "slate"
     ));
-
 
     public final static Set<String> mineablesOre = new HashSet<String>(Arrays.asList(
             "cassiterite",
@@ -474,7 +494,7 @@ public class Config {
         put("/idle", new CheckListboxItem("Idle animals"));
     }};
 
-    public final static HashMap<String, String[]> cures = new HashMap<String, String[]>(24) {{
+    public final static HashMap<String, String[]> cures = new HashMap<String, String[]>(25) {{
         put("paginae/wound/antburn", new String[]{
                 "gfx/invobjs/herbs/yarrow"
         });
@@ -574,6 +594,9 @@ public class Config {
                 "gfx/invobjs/toadbutter"
         });
         put("paginae/wound/midgebite", new String[]{
+                "gfx/invobjs/herbs/yarrow"
+        });
+        put("paginae/wound/sandfleabites", new String[]{
                 "gfx/invobjs/herbs/yarrow"
         });
     }};
