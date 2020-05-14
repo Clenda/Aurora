@@ -26,6 +26,7 @@
 
 package haven;
 
+import integrations.mapv4.MappingClient;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -273,6 +274,17 @@ public class OptWnd extends Window {
                     public void set(boolean val) {
                         Utils.setprefb("hidecrops", val);
                         Config.hidecrops = val;
+                        a = val;
+                    }
+                });
+                appender.add(new CheckBox("smooth snow in minimap") {
+                    {
+                        a = Config.minimapsmooth;
+                    }
+
+                    public void set(boolean val) {
+                        Utils.setprefb("minimapsmooth", val);
+                        Config.minimapsmooth = val;
                         a = val;
                     }
                 });
@@ -746,17 +758,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Show timestamps in chats") {
-            {
-                a = Config.chattimestamp;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("chattimestamp", val);
-                Config.chattimestamp = val;
-                a = val;
-            }
-        });
         appender.add(new CheckBox("Notify when kin comes online") {
             {
                 a = Config.notifykinonline;
@@ -1016,7 +1017,7 @@ public class OptWnd extends Window {
 
             public void set(boolean val) {
                 Utils.setprefb("proximityaggro", val);
-                Config.combshowkeys = val;
+                Config.proximityaggro = val;
                 a = val;
             }
         });
@@ -1642,6 +1643,17 @@ public class OptWnd extends Window {
                     }
                 }
         );
+        appender.add(new CheckBox("Enable mapping service") {
+            {
+                a = Config.mapperEnabled;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("mapperEnabled", val);
+                Config.mapperEnabled = val;
+                a = val;
+            }
+        });
         appender.add(new CheckBox("Hide character name") {
             {
                 a = Config.mapperHashName;
@@ -1675,6 +1687,48 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+
+        appender.add(new Label(""));
+		appender.add(new Label("Vendan Map-v4:", sectionfndr));
+
+		appender.addRow(new Label("Server URL:"),
+				new TextEntry(240, Utils.getpref("vendan-mapv4-endpoint", "")) {
+					@Override
+					public boolean keydown(KeyEvent ev) {
+						if (!parent.visible)
+							return false;
+						Utils.setpref("vendan-mapv4-endpoint", text);
+                        MappingClient.getInstance().SetEndpoint(text);
+						return buf.key(ev);
+					}
+				}
+		);
+
+		appender.add(new CheckBox("Enable mapv4 mapper") {
+			{
+				a = Config.vendanMapv4;
+			}
+
+			public void set(boolean val) {
+				Utils.setprefb("vendan-mapv4", val);
+                Config.vendanMapv4 = val;
+                MappingClient.getInstance().EnableGridUploads(Config.vendanMapv4);
+                MappingClient.getInstance().EnableTracking(Config.vendanMapv4);
+				a = val;
+			}
+        });
+        
+        appender.add(new CheckBox("Upload custom GREEN markers to map") {
+			{
+				a = Config.vendanGreenMarkers;
+			}
+
+			public void set(boolean val) {
+				Utils.setprefb("vendan-mapv4-green-markers", val);
+                Config.vendanGreenMarkers = val;
+				a = val;
+			}
+		});
 
         appender.add(new Label(""));
         appender.add(new Label("Locally saved map tiles for 3rd party tools:", sectionfndr));

@@ -9,4 +9,7 @@ amber-*.zip
 /l10n/*_new.properties
 /bin
 /.settings
-/release
+.devcontainer/
+workspace.code-workspace
+food_data.json
+mapdata_index_global

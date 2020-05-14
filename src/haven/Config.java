@@ -27,6 +27,8 @@
 package haven;
 
 import haven.error.ErrorHandler;
+import integrations.mapv4.MappingClient;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -55,6 +57,9 @@ public class Config {
     public static boolean sendCustomMarkers = Utils.getprefb("sendCustomMarkers", false);
     public static String mapperUrl = Utils.getpref("mapperUrl", "http://example.com");
     public static boolean mapperHashName = Utils.getprefb("mapperHashName", true);
+    public static boolean mapperEnabled = Utils.getprefb("mapperEnabled", true);
+    public static boolean vendanMapv4 = Utils.getprefb("vendan-mapv4", false);
+    public static boolean vendanGreenMarkers = Utils.getprefb("vendan-mapv4-green-markers", false);
     public static boolean hideflocomplete = Utils.getprefb("hideflocomplete", false);
     public static boolean hideflovisual = Utils.getprefb("hideflovisual", false);
     public static boolean daylight = Utils.getprefb("daylight", false);
@@ -64,7 +69,6 @@ public class Config {
     public static boolean chatsave = Utils.getprefb("chatsave", false);
     public static boolean showauthoritychange = Utils.getprefb("showauthoritychange", false);
     public static boolean saveauthoritychange = Utils.getprefb("saveauthoritychange", false);
-    public static boolean chattimestamp = Utils.getprefb("chattimestamp", true);
     public static boolean alarmunknown = Utils.getprefb("alarmunknown", false);
     public static double alarmunknownvol = Utils.getprefd("alarmunknownvol", 0.32);
     public static boolean alarmred = Utils.getprefb("alarmred", false);
@@ -168,6 +172,7 @@ public class Config {
     public static String font = Utils.getpref("font", "SansSerif");
     public static int fontadd = Utils.getprefi("fontadd", 0);
     public static boolean proximityaggro = Utils.getprefb("proximityaggro", false);
+    public static boolean minimapsmooth = Utils.getprefb("minimapsmooth", false);
     public static boolean foodService = Utils.getprefb("foodService", false);
     public static boolean pf = false;
     public static String playerposfile;
@@ -303,7 +308,7 @@ public class Config {
         put("strawberrytree", new CheckListboxItem("Wood Strawberry"));
     }};
 
-    public final static HashMap<String, CheckListboxItem> icons = new HashMap<String, CheckListboxItem>(50) {{
+    public final static HashMap<String, CheckListboxItem> icons = new HashMap<String, CheckListboxItem>(55) {{
         put("dandelion", new CheckListboxItem("Dandelion"));
         put("chantrelle", new CheckListboxItem("Chantrelle"));
         put("blueberry", new CheckListboxItem("Blueberry"));
@@ -354,7 +359,12 @@ public class Config {
         put("mistletoe", new CheckListboxItem("Mistletoe"));
         put("waterstrider", new CheckListboxItem("Waterstrider"));
         put("firefly", new CheckListboxItem("Firefly"));
-        put("duskfern", new CheckListboxItem("Cave Fern"));
+        put("duskfern", new CheckListboxItem("Dusk Fern"));
+        put("sandflea", new CheckListboxItem("Sand Flea"));
+        put("jellyfish", new CheckListboxItem("Jelly Fish"));
+        put("precioussnowflake", new CheckListboxItem("Precious Snowflake"));
+        put("coltsfoot", new CheckListboxItem("Coltsfoot"));
+        put("frogspawn", new CheckListboxItem("Frogspawn"));
     }};
 
     public final static HashMap<String, CheckListboxItem> flowermenus = new HashMap<String, CheckListboxItem>(19) {{
@@ -574,7 +584,8 @@ public class Config {
         put("paginae/wound/infectedsore", new String[]{
                 "gfx/invobjs/camomilecompress",
                 "gfx/invobjs/soapbar",
-                "gfx/invobjs/opium"
+                "gfx/invobjs/opium",
+                "gfx/invobjs/antpaste"
         });
         put("paginae/wound/nastylaceration", new String[]{
                 "gfx/invobjs/stitchpatch",
@@ -582,13 +593,15 @@ public class Config {
         });
         put("paginae/wound/sealfinger", new String[]{
                 "gfx/invobjs/hartshornsalve",
-                "gfx/invobjs/kelpcream"
+                "gfx/invobjs/kelpcream",
+                "gfx/invobjs/antpaste"
         });
         put("paginae/wound/coalcough", new String[]{
                 "gfx/invobjs/opium"
         });
         put("paginae/wound/beesting", new String[]{
-                "gfx/invobjs/kelpcream"
+                "gfx/invobjs/kelpcream",
+                "gfx/invobjs/antpaste"
         });
         put("paginae/wound/leechburns", new String[]{
                 "gfx/invobjs/toadbutter"
@@ -598,6 +611,9 @@ public class Config {
         });
         put("paginae/wound/sandfleabites", new String[]{
                 "gfx/invobjs/herbs/yarrow"
+        });
+        put("paginae/wound/crabcaressed", new String[]{
+                "gfx/invobjs/antpaste"
         });
     }};
 
@@ -647,7 +663,10 @@ public class Config {
                 }
             }
         }
-
+        MappingClient.getInstance().SetEndpoint(Utils.getpref("vendan-mapv4-endpoint", ""));
+        MappingClient.getInstance().EnableGridUploads(Config.vendanMapv4);
+        MappingClient.getInstance().EnableTracking(Config.vendanMapv4);
+        
         loadLogins();
     }
 
