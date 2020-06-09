@@ -67,12 +67,4 @@ public class TownSpeakerWnd extends Window {
         }
     }
 
-    @Override
-    public boolean type(char key, java.awt.event.KeyEvent ev) {
-        if (key == 27) {
-            hide();
-            return true;
-        }
-        return super.type(key, ev);
-    }
 }

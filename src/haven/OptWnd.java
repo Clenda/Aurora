@@ -733,7 +733,7 @@ public class OptWnd extends Window {
                 }
             }
         });
-        });  
+
         appender.add(new CheckBox("Show Authority change in System chat") {
             {
                 a = Config.showauthoritychange;

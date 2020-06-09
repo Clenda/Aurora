@@ -22,23 +22,11 @@ public class TownSpeakerEditWnd extends Window {
 
         add(new Label("Hours"), new Coord(225, 10));
         final TextEntry txthours = new TextEntry(50, hours != 0 ? hours + "" : "") {
-            @Override
-            public boolean type(char c, KeyEvent ev) {
-                if (c == 0x8 || c == 0x7f || c == 0x09 || (c >= 0x30 && c <= 0x39 && text.length() <= 2))
-                    return super.type(c, ev);
-                return true;
-            }
         };
         add(txthours, new Coord(225, 30));
 
         add(new Label("Minutes"), new Coord(285, 10));
         final TextEntry txtminutes = new TextEntry(50, minutes != 0 ? minutes + "" : "") {
-            @Override
-            public boolean type(char c, KeyEvent ev) {
-                if (c == 0x8 || c == 0x7f || c == 0x09 || (c >= 0x30 && c <= 0x39 && text.length() <= 1))
-                    return super.type(c, ev);
-                return true;
-            }
         };
         add(txtminutes, new Coord(285, 30));
         
@@ -102,15 +90,6 @@ public class TownSpeakerEditWnd extends Window {
             reqdestroy();
         else
             super.wdgmsg(sender, msg, args);
-    }
-
-    @Override
-    public boolean type(char key, java.awt.event.KeyEvent ev) {
-        if (key == 27) {
-            reqdestroy();
-            return true;
-        }
-        return super.type(key, ev);
     }
 
     public TownSpeakerEditWnd(String cap, final GameUI gui) {
